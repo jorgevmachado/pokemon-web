@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pokemon Web
 
-## Getting Started
+Next.js (App Router) project with login/register flow, alert component feedback, protected home route via auth cookie, and dynamic navbar/sidebar.
 
-First, run the development server:
+## Features
+
+- Alert component with `info`, `warning`, `error`, and `success`
+- Login page with email and password
+- Register page with:
+  - email
+  - full name
+  - birth date
+  - gender
+  - password and password confirmation
+- Protected `home` route (`/home`) guarded by auth cookie token
+- Dynamic navigation:
+  - authenticated: navbar + sidebar menus
+  - unauthenticated: navbar only
+
+## Authentication Documentation
+
+- Detailed auth architecture, login flow, loading behavior, and maintenance guide:
+  - `app/ui/features/auth/README.md`
+
+## Routes
+
+- `/login`: login page
+- `/register`: register page
+- `/home`: protected page
+- `/`: redirects to `/home` (authenticated) or `/login` (unauthenticated)
+
+## Local Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Validation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run lint
+npm run test
+```

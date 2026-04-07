@@ -1,0 +1,32 @@
+export const POKEDEX_COPY = {
+  badge: 'Pokédex',
+  title: 'Pokédex Listing',
+  subtitle: 'Browse Pokémon from your backend in a clean, searchable-style grid.',
+  pageSummarySuffix: 'Pokémon',
+  updatingLabel: 'Updating...',
+  loadingTitle: 'Loading Pokémon',
+  loadingDescription: 'Fetching Pokédex entries. Please wait a moment.',
+  emptyTitle: 'No Pokémon Found',
+  emptyDescription: 'The Pokédex is currently empty. Try again later.',
+  errorTitle: 'Unable to Load Pokédex',
+  errorDescription: 'An unexpected error occurred while loading Pokémon entries.',
+  retryButtonLabel: 'Try again',
+  filterTypeLabel: 'Type',
+  filterNameLabel: 'Name',
+  filterOrderLabel: 'Order',
+  filterTypePlaceholder: 'e.g. fire',
+  filterTypeLoadingPlaceholder: 'Loading types...',
+  filterTypeNoResultsLabel: 'No matching types',
+  filterNamePlaceholder: 'e.g. charmander',
+  filterOrderPlaceholder: 'e.g. 4',
+  filterApplyButtonLabel: 'Apply filters',
+  filterClearButtonLabel: 'Clear filters',
+  numberPrefix: 'Nº',
+  fallbackName: 'Unknown Pokémon',
+  fallbackStatLabel: 'Pokémon',
+  levelLabel: 'Lv.',
+  hpLabel: 'HP',
+};
+
+export const POKEDEX_FALLBACK_IMAGE = '/icon.svg';
+

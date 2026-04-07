@@ -1,0 +1,68 @@
+$colors: (
+        // Pokemon colors
+        "pokemon-red-40": #FFB3BA,
+        "pokemon-red-60": #FF8A92,
+        "pokemon-red-80": #ED1C24,
+        "pokemon-red-100": #B22222,
+        "pokemon-yellow-40": #FFEB99,
+        "pokemon-yellow-60": #FFD700,
+        "pokemon-yellow-80": #FFC200,
+        "pokemon-yellow-100": #DAA520,
+        "pokemon-blue-40": #B3D9FF,
+        "pokemon-blue-60": #5DADE2,
+        "pokemon-blue-80": #2980B9,
+        "pokemon-blue-100": #1F618D,
+        "pokemon-green-40": #C1FFC1,
+        "pokemon-green-60": #7CFC00,
+        "pokemon-green-80": #00AA00,
+        "pokemon-green-100": #006600,
+        //'primary-40': var(--color-primary-40),
+        //'primary-60': var(--color-primary-60),
+        //'primary-80': var(--color-primary-80),
+        //'primary-100': var(--color-primary-100),
+        //'secondary-40': var(--color-secondary-40),
+        //'secondary-60': var(--color-secondary-60),
+        //'secondary-80': var(--color-secondary-80),
+        //'secondary-100': var(--color-secondary-100),
+        "info-40": #B3E5FC,
+        "info-60": #4FC3F7,
+        "info-80": #0288D1,
+        "info-100": #01579B,
+        "error-40": #FFCCCB,
+        "error-60": #FF7171,
+        "error-80": #F44336,
+        "error-100": #B71C1C,
+        "neutral-40": #F4F6F8,
+        "neutral-60": #DDE1E6,
+        "neutral-80": #B0B6BC,
+        "neutral-100": #3B4248,
+        "success-40": #C8E6C9,
+        "success-60": #81C784,
+        "success-80": #388E3C,
+        "success-100": #145224,
+        "attention-40": #FFF9C4,
+        "attention-60": #FFE066,
+        "attention-80": #FFC107,
+        "attention-100": #997500,
+        'social-google-80': #4285F4,
+        'social-google-90': #EA4335,
+        'social-google-100': #FBBC05,
+        'social-facebook-80': #1877F3,
+        'social-facebook-90': #4267B2,
+        'social-facebook-100': #385898,
+        'social-whatsapp-80': #25D366,
+        'social-whatsapp-90': #075E54,
+        'social-whatsapp-100': #128C7E,
+        'social-github-80': #24292f,
+        'social-github-90': #333,
+        'social-github-100': #6e5494,
+);
+
+@each $name, $value in $colors {
+  .ds-color-#{$name} {
+    color: $value;
+  }
+  .ds-background-color-#{$name} {
+    background-color: $value;
+  }
+}
