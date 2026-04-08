@@ -136,7 +136,7 @@ const PokedexList = () => {
                   externalImage: pokedex.pokemon.external_image,
                 } }
                 showInfo={ pokedex.discovered }
-                onClick={ (item) => {
+                onClick={ !pokedex.discovered ? undefined : (item) => {
                   router.push(`/pokedex/${ item.id }`);
                 } }
               />
