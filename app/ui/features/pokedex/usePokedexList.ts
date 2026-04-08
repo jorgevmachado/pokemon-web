@@ -5,7 +5,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { TPaginatedListResponse, TPaginatedMeta } from '@/app/ui/components/pagination/types';
 import { useLoading } from '@/app/ui/components/loading';
 
-import type { PokedexFilters, PokedexViewState, TPokedex, UsePokedexListResult } from './types';
+import type {
+  PokedexFilters as PokedexFiltersProps ,
+  PokedexFilters ,PokedexViewState ,TPokedex ,UsePokedexListResult,
+} from './types';
+import { FiltersProps } from '@/app/ui';
 
 const INITIAL_PAGINATION: TPaginatedMeta = {
   total: 0,
@@ -22,6 +26,30 @@ const INITIAL_FILTERS: PokedexFilters = {
   nickname: '',
   order: '',
 };
+
+const INITIAL_INPUT_FILTERS: FiltersProps['filters'] = [
+  {
+    label: 'TYPE',
+    type: 'autocomplete',
+    name: 'type',
+    value: '',
+    placeholder: 'Select Type',
+  },
+  {
+    label: 'NAME',
+    type: 'text',
+    name: 'nickname',
+    value: '',
+    placeholder: 'Search by name',
+  },
+  {
+    label: 'ORDER',
+    type: 'text',
+    name: 'order',
+    value: '',
+    placeholder: 'Search by order',
+  }
+];
 
 const INITIAL_STATE: PokedexViewState = {
   items: [],
@@ -59,6 +87,7 @@ const toQueryString = (page: number, filters: PokedexFilters): string => {
 const usePokedexList = (): UsePokedexListResult => {
   const [state, setState] = useState<PokedexViewState>(INITIAL_STATE);
   const [filters, setFilters] = useState<PokedexFilters>(INITIAL_FILTERS);
+  const [inputFilters, setInputFilters] = useState<FiltersProps['filters']>(INITIAL_INPUT_FILTERS);
   const requestIdRef = useRef(0);
   const { startContentLoading, stopContentLoading } = useLoading();
 
@@ -148,8 +177,32 @@ const usePokedexList = (): UsePokedexListResult => {
     });
   }, []);
 
+  const applyInputFilters = useCallback((nextFilters: PokedexFilters) => {
+    setInputFilters((prevState) => {
+      return prevState.map((filter) => ({
+        ...filter,
+        value: nextFilters[filter.name as keyof PokedexFiltersProps] || '',
+      }));
+    });
+    applyFilters(nextFilters);
+  }, [applyFilters]);
+
   const clearFilters = useCallback(() => {
     setFilters(INITIAL_FILTERS);
+  }, []);
+
+  const clearInputFilters = useCallback(() => {
+    setInputFilters((prevState) => {
+      return prevState.map((filter) => ({
+        ...filter,
+        value: '',
+      }));
+    });
+    clearFilters();
+  },[clearFilters]);
+
+  const updateInputFilters = useCallback((inputFilters: FiltersProps['filters']) => {
+    setInputFilters(inputFilters);
   }, []);
 
   const reload = useCallback(() => {
@@ -162,10 +215,14 @@ const usePokedexList = (): UsePokedexListResult => {
     isLoading: state.isLoading,
     errorMessage: state.errorMessage,
     filters,
+    inputFilters,
     goToPage,
     applyFilters,
     clearFilters,
     reload,
+    applyInputFilters,
+    clearInputFilters,
+    updateInputFilters,
   };
 };
 

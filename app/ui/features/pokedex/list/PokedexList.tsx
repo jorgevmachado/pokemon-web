@@ -1,6 +1,6 @@
 'use client';
 
-import React ,{ useCallback ,useMemo ,useState } from 'react';
+import React ,{ useCallback ,useMemo } from 'react';
 import { MdCatchingPokemon } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
 
@@ -20,37 +20,13 @@ const PokedexList = () => {
     meta ,
     isLoading ,
     errorMessage ,
-    filters ,
+    inputFilters ,
     goToPage ,
-    applyFilters ,
-    clearFilters ,
+    applyInputFilters ,
+    clearInputFilters ,
   } = usePokedexList();
   const router = useRouter();
   const { list ,isLoading: isLoadingTypes } = usePokemonTypeList();
-  
-  const [customFilters, setCustomFilters] = useState<FiltersProps['filters']>([
-    {
-      label: 'TYPE',
-      type: 'autocomplete',
-      name: 'type',
-      value: '',
-      placeholder: 'Select Type',
-    },
-    {
-      label: 'NAME',
-      type: 'text',
-      name: 'nickname',
-      value: '',
-      placeholder: 'Search by name',
-    },
-    {
-      label: 'ORDER',
-      type: 'text',
-      name: 'order',
-      value: '',
-      placeholder: 'Search by order',
-    }
-  ]);
 
   const pageSummary = useMemo(() => {
     const currentStart = meta.offset + 1;
@@ -63,12 +39,12 @@ const PokedexList = () => {
     return `${ currentStart }-${ currentEnd } of ${ meta.total } ${ POKEDEX_COPY.pageSummarySuffix }`;
   } ,[meta.limit ,meta.offset ,meta.total]);
 
-  const tags = useCallback((types: TPokemon['types'], discovered: boolean) => {
+  const tags = useCallback((types: TPokemon['types'] ,discovered: boolean) => {
     if (!discovered) {
       const fallback: CardTagProps = {
         key: 'not_discovered' ,
         tone: 'neutral' ,
-        name: 'NOT DISCOVERED',
+        name: 'NOT DISCOVERED' ,
       };
       return [fallback];
     }
@@ -79,56 +55,36 @@ const PokedexList = () => {
         style: {
           color: type.text_color ,
           backgroundColor: type.background_color ,
-        },
+        } ,
       }));
     }
     return [];
-  }, []);
-  
-  const handleApplyFilter = (nextFilters: PokedexFiltersProps) => {
-    setCustomFilters((prevState) => {
-      return prevState.map((filter) => ({
-        ...filter,
-        value: nextFilters[filter.name as keyof PokedexFiltersProps] || '',
-      }));
-    });
-    applyFilters(nextFilters);
-  };
+  } ,[]);
 
-  const handleClearFilter = () => {
-    setCustomFilters((prevState) => {
-      return prevState.map((filter) => ({
-        ...filter,
-        value: '',
-      }));
-    });
-    clearFilters();
-  };
-  
-  const handleBuildFilters = useCallback(() => {
-    return customFilters.map((filter) => {
+  const handleBuildFilters = useCallback((filters: FiltersProps['filters']) => {
+    return filters.map((filter) => {
       if (filter.type !== 'autocomplete') {
         return filter;
       }
       return {
-        ...filter,
+        ...filter ,
         options: list.map((type) => ({
-          key: type.id,
-          value: type.name
-        })),
-        isLoading: isLoadingTypes,
+          key: type.id ,
+          value: type.name,
+        })) ,
+        isLoading: isLoadingTypes ,
       };
     });
-  }, [customFilters, isLoadingTypes, list]);
-  
+  } ,[isLoadingTypes ,list]);
+
   return (
     <section className="mx-auto w-full max-w-6xl space-y-6"
       aria-label="pokedex-list">
       <Filters
         ariaLabel="Pokedex Filters"
-        filters={handleBuildFilters()}
-        onApply={ (item) =>  handleApplyFilter(item as PokedexFiltersProps) }
-        onClear={ handleClearFilter }
+        filters={ handleBuildFilters(inputFilters) }
+        onApply={ (item) => applyInputFilters(item as PokedexFiltersProps) }
+        onClear={ clearInputFilters }
       />
 
       { !errorMessage && isLoading && items.length === 0 ? (
@@ -170,19 +126,19 @@ const PokedexList = () => {
             { items.map((pokedex: TPokedex) => (
               <Card
                 key={ pokedex.id }
-                id={pokedex.id}
-                tags={ tags(pokedex.pokemon.types, pokedex.discovered) }
-                name={pokedex.pokemon.name}
-                order={pokedex.pokemon.order}
-                nickname={pokedex.nickname}
-                image={{
-                  image: pokedex.pokemon.image,
-                  externalImage: pokedex.pokemon.external_image
-                }}
-                showInfo={pokedex.discovered}
-                onClick={(item) => {
-                  router.push(`/pokedex/${item.id}`);
-                }}
+                id={ pokedex.id }
+                tags={ tags(pokedex.pokemon.types ,pokedex.discovered) }
+                name={ pokedex.pokemon.name }
+                order={ pokedex.pokemon.order }
+                nickname={ pokedex.nickname }
+                image={ {
+                  image: pokedex.pokemon.image ,
+                  externalImage: pokedex.pokemon.external_image,
+                } }
+                showInfo={ pokedex.discovered }
+                onClick={ (item) => {
+                  router.push(`/pokedex/${ item.id }`);
+                } }
               />
             )) }
           </div>

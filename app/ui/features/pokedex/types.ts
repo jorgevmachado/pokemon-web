@@ -3,6 +3,7 @@ import {
   TListQuery ,
   TPaginatedListResponse,
 } from '@/app/ui/components/pagination/types';
+import { FiltersProps } from '@/app/ui';
 
 export type PokedexViewState = {
   items: TPaginatedListResponse<TPokedex>['items'];
@@ -17,9 +18,13 @@ export type UsePokedexListResult = {
   isLoading: boolean;
   errorMessage: string | null;
   filters: PokedexFilters;
+  inputFilters: FiltersProps['filters'];
   goToPage: (page: number) => void;
   applyFilters: (nextFilters: PokedexFilters) => void;
+  applyInputFilters: (nextFilters: PokedexFilters) => void;
   clearFilters: () => void;
+  clearInputFilters: () => void;
+  updateInputFilters: (inputFilters: FiltersProps['filters']) => void;
   reload: () => void;
 };
 
