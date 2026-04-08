@@ -1,1 +1,1 @@
-export { toPositiveInteger } from './number';
+export { formatNumberPrefix,toPositiveInteger } from './number';

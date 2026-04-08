@@ -1,16 +1,18 @@
 'use client';
 
-import React ,{ useMemo } from 'react';
+import React ,{ useCallback ,useMemo ,useState } from 'react';
 import { MdCatchingPokemon } from 'react-icons/md';
+import { useRouter } from 'next/navigation';
 
-import { InfoCard ,Pagination } from '@/app/ui/components';
+import { FiltersProps ,InfoCard ,Pagination } from '@/app/ui/components';
 
 import { POKEDEX_COPY } from '../constants';
-import type { TPokedex } from '../types';
+import type { PokedexFilters as PokedexFiltersProps ,TPokedex } from '../types';
 import usePokedexList from '../usePokedexList';
-import { usePokemonTypeList } from '../../pokemon';
-import PokedexCard from './card';
-import PokedexFilters from './filter/PokedexFilters';
+import { TPokemon ,usePokemonTypeList } from '../../pokemon';
+import Card from '@/app/ui/components/card';
+import { CardTagProps } from '@/app/ui/components/card/tag';
+import Filters from '@/app/ui/components/filters';
 
 const PokedexList = () => {
   const {
@@ -23,7 +25,32 @@ const PokedexList = () => {
     applyFilters ,
     clearFilters ,
   } = usePokedexList();
+  const router = useRouter();
   const { list ,isLoading: isLoadingTypes } = usePokemonTypeList();
+  
+  const [customFilters, setCustomFilters] = useState<FiltersProps['filters']>([
+    {
+      label: 'TYPE',
+      type: 'autocomplete',
+      name: 'type',
+      value: '',
+      placeholder: 'Select Type',
+    },
+    {
+      label: 'NAME',
+      type: 'text',
+      name: 'nickname',
+      value: '',
+      placeholder: 'Search by name',
+    },
+    {
+      label: 'ORDER',
+      type: 'text',
+      name: 'order',
+      value: '',
+      placeholder: 'Search by order',
+    }
+  ]);
 
   const pageSummary = useMemo(() => {
     const currentStart = meta.offset + 1;
@@ -36,15 +63,72 @@ const PokedexList = () => {
     return `${ currentStart }-${ currentEnd } of ${ meta.total } ${ POKEDEX_COPY.pageSummarySuffix }`;
   } ,[meta.limit ,meta.offset ,meta.total]);
 
+  const tags = useCallback((types: TPokemon['types'], discovered: boolean) => {
+    if (!discovered) {
+      const fallback: CardTagProps = {
+        key: 'not_discovered' ,
+        tone: 'neutral' ,
+        name: 'NOT DISCOVERED',
+      };
+      return [fallback];
+    }
+    if (types && types.length > 0) {
+      return types.map((type) => ({
+        key: type.id ,
+        name: type.name ,
+        style: {
+          color: type.text_color ,
+          backgroundColor: type.background_color ,
+        },
+      }));
+    }
+    return [];
+  }, []);
+  
+  const handleApplyFilter = (nextFilters: PokedexFiltersProps) => {
+    setCustomFilters((prevState) => {
+      return prevState.map((filter) => ({
+        ...filter,
+        value: nextFilters[filter.name as keyof PokedexFiltersProps] || '',
+      }));
+    });
+    applyFilters(nextFilters);
+  };
+
+  const handleClearFilter = () => {
+    setCustomFilters((prevState) => {
+      return prevState.map((filter) => ({
+        ...filter,
+        value: '',
+      }));
+    });
+    clearFilters();
+  };
+  
+  const handleBuildFilters = useCallback(() => {
+    return customFilters.map((filter) => {
+      if (filter.type !== 'autocomplete') {
+        return filter;
+      }
+      return {
+        ...filter,
+        options: list.map((type) => ({
+          key: type.id,
+          value: type.name
+        })),
+        isLoading: isLoadingTypes,
+      };
+    });
+  }, [customFilters, isLoadingTypes, list]);
+  
   return (
     <section className="mx-auto w-full max-w-6xl space-y-6"
-             aria-label="pokedex-list">
-      <PokedexFilters
-        filters={ filters }
-        typeOptions={ list }
-        isLoadingTypes={ isLoadingTypes }
-        onApply={ applyFilters }
-        onClear={ clearFilters }
+      aria-label="pokedex-list">
+      <Filters
+        ariaLabel="Pokedex Filters"
+        filters={handleBuildFilters()}
+        onApply={ (item) =>  handleApplyFilter(item as PokedexFiltersProps) }
+        onClear={ handleClearFilter }
       />
 
       { !errorMessage && isLoading && items.length === 0 ? (
@@ -84,7 +168,22 @@ const PokedexList = () => {
           <div
             className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             { items.map((pokedex: TPokedex) => (
-              <PokedexCard key={ pokedex.id } pokedex={ pokedex }/>
+              <Card
+                key={ pokedex.id }
+                id={pokedex.id}
+                tags={ tags(pokedex.pokemon.types, pokedex.discovered) }
+                name={pokedex.pokemon.name}
+                order={pokedex.pokemon.order}
+                nickname={pokedex.nickname}
+                image={{
+                  image: pokedex.pokemon.image,
+                  externalImage: pokedex.pokemon.external_image
+                }}
+                showInfo={pokedex.discovered}
+                onClick={(item) => {
+                  router.push(`/pokedex/${item.id}`);
+                }}
+              />
             )) }
           </div>
 

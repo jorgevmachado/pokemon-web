@@ -1,9 +1,7 @@
 import React from 'react';
+import { CardTagProps ,CardTagTone } from '@/app/ui/components/card/tag/types';
 import { joinClass } from '@/app/utils';
-import {
-  CardTagTone ,
-  PokedexCardTagProps ,
-} from '@/app/ui/features/pokedex/list/card/tags/tag/types';
+
 
 const badgeToneClassNameByTone: Record<CardTagTone ,string> = {
   primary: 'bg-emerald-400 text-white' ,
@@ -13,11 +11,11 @@ const badgeToneClassNameByTone: Record<CardTagTone ,string> = {
   neutral: 'bg-slate-200 text-slate-700' ,
 };
 
-const PokedexCardTag = ({
-  name ,
-  tone ,
+const CardTag = ({
+  name,
+  tone,
   style,
-}: PokedexCardTagProps) => {
+}: CardTagProps) => {
 
   const classNameList = joinClass([
     'inline-flex' ,
@@ -42,4 +40,4 @@ const PokedexCardTag = ({
   );
 };
 
-export default React.memo(PokedexCardTag);
+export default React.memo(CardTag);

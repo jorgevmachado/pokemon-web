@@ -7,3 +7,24 @@ export const toPositiveInteger = (value: string | null, fallback: number): numbe
 
   return parsedValue;
 };
+
+
+type FormatNumberPrefixProps = {
+  value?: number;
+  prefix?: string;
+  maxLength?: number;
+  fillString?: string;
+}
+
+export const formatNumberPrefix = ({
+  value,
+  prefix = 'Nº',
+  maxLength = 4,
+  fillString = '0',
+}: FormatNumberPrefixProps) => {
+  const safeNumber = typeof value === 'number' && Number.isFinite(value) 
+    ? Math.max(0, value) 
+    : 0;
+  
+  return `${prefix} ${safeNumber.toString().padStart(maxLength, fillString)}`;
+};
