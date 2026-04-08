@@ -28,6 +28,18 @@ export type UsePokedexListResult = {
   reload: () => void;
 };
 
+export type UsePokedexDetailResult = {
+  item?: TPokedex;
+  isLoading: boolean;
+  errorMessage: string | null;
+};
+
+export type PokedexViewDetailState = {
+  item?: TPokedex;
+  isLoading: boolean;
+  errorMessage: string | null;
+}
+
 export type PokedexFilters = {
   type?: string;
   order?: string;

@@ -4,3 +4,7 @@ export type BreadcrumbItem = {
   isCurrent: boolean;
 };
 
+export type BreadcrumbContextProps = {
+  setCustomLabel: (path: string, label: string) => void;
+  customLabels: Record<string, string>;
+}

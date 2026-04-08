@@ -13,5 +13,9 @@ export class PokedexService extends BaseServiceAbstract {
     return this.get<TPaginatedListResponse<TPokedex> | Array<TPokedex>>(
       this.pathUrl ,{ params: { ...sanitizedParams } });
   }
+
+  public async getById(id: string): Promise<TPokedex> {
+    return this.get<TPokedex>(`${this.pathUrl}/${id}`);
+  }
 }
 

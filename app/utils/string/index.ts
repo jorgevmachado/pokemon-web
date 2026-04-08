@@ -1,0 +1,1 @@
+export { normalizedName } from './string';

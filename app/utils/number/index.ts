@@ -1,1 +1,1 @@
-export { formatNumberPrefix,toPositiveInteger } from './number';
+export { clampPercentage,formatNumberPrefix,toPositiveInteger } from './number';

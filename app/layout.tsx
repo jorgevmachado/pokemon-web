@@ -8,6 +8,7 @@ import { AlertProvider } from '@/app/ui/components/alert';
 import { LoadingProvider } from '@/app/ui/components/loading';
 
 import './globals.css';
+import { BreadcrumbProvider } from '@/app/ui/components/breadcrumb';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -47,7 +48,9 @@ export default async function RootLayout({
       <body className='antialiased'>
         <AlertProvider>
           <LoadingProvider>
-            <NavigationFrame isAuthenticated={session.isAuthenticated}>{children}</NavigationFrame>
+            <BreadcrumbProvider>
+              <NavigationFrame isAuthenticated={session.isAuthenticated}>{children}</NavigationFrame>
+            </BreadcrumbProvider>
           </LoadingProvider>
         </AlertProvider>
       </body>

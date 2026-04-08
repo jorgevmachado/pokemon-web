@@ -6,6 +6,7 @@ import React, { useMemo } from 'react';
 import { MdChevronRight, MdHome } from 'react-icons/md';
 
 import { buildBreadcrumbs } from './breadcrumb-config';
+import { useBreadcrumb } from '@/app/ui/components/breadcrumb/useBreadcrumb';
 
 /**
  * Global breadcrumb component.
@@ -16,7 +17,14 @@ import { buildBreadcrumbs } from './breadcrumb-config';
  */
 const Breadcrumb = () => {
   const pathname = usePathname();
-  const items = useMemo(() => buildBreadcrumbs(pathname), [pathname]);
+  const { customLabels } = useBreadcrumb();
+  const items = useMemo(() => {
+    const breadcrumbs = buildBreadcrumbs(pathname);
+    return breadcrumbs.map((item) => ({
+      ...item,
+      label: customLabels[item.href] || item.label,
+    }));
+  }, [customLabels, pathname]);
 
   if (items.length === 0) return null;
 
