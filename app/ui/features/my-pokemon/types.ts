@@ -1,4 +1,4 @@
-import { TListQuery ,TPaginatedListResponse } from '@/app/ui';
+import { FiltersProps ,TListQuery ,TPaginatedListResponse } from '@/app/ui';
 import { TPokemon } from '@/app/ui/features/pokemon';
 
 export type TMyPokemon = {
@@ -51,11 +51,26 @@ export type UseMyPokemonListResult = {
   isLoading: boolean;
   errorMessage: string | null;
   filters: MyPokemonFilters;
+  inputFilters: FiltersProps['filters'];
   goToPage: (page: number) => void;
   applyFilters: (nextFilters: MyPokemonFilters) => void;
+  applyInputFilters: (nextFilters: MyPokemonFilters) => void;
   clearFilters: () => void;
+  clearInputFilters: () => void;
+  updateInputFilters: (inputFilters: FiltersProps['filters']) => void;
   reload: () => void;
 }
 
 export type MyPokemonListQuery = TListQuery & MyPokemonFilters;
 
+export type MyPokemonViewDetailState = {
+  item?: TMyPokemon;
+  isLoading: boolean;
+  errorMessage: string | null;
+}
+
+export type UseMyPokemonDetailResult = {
+  item?: TMyPokemon;
+  isLoading: boolean;
+  errorMessage: string | null;
+}

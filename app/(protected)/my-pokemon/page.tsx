@@ -1,7 +1,5 @@
+import { MyPokemonList } from '@/app/ui/features/my-pokemon';
+
 export default function MyPokemonPage() {
-  return (
-    <div>
-      <h1>MY POKEMON</h1>
-    </div> 
-  );
+  return <MyPokemonList/>;
 }
