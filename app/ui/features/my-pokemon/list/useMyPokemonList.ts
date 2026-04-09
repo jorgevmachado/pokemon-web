@@ -8,7 +8,7 @@ import { useLoading } from '@/app/ui/components/loading';
 import type {
   MyPokemonFilters as MyPokemonFiltersProps ,
   MyPokemonFilters ,MyPokemonViewState ,TMyPokemon ,UseMyPokemonListResult,
-} from './types';
+} from '../types';
 import { FiltersProps } from '@/app/ui';
 
 const INITIAL_PAGINATION: TPaginatedMeta = {

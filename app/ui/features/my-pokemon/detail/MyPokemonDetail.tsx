@@ -3,24 +3,19 @@
 import React from 'react';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import { MdCatchingPokemon ,MdFemale ,MdMale } from 'react-icons/md';
+import { MdCatchingPokemon } from 'react-icons/md';
 
-import useMyPokemonDetail from '@/app/ui/features/my-pokemon/useMyPokemonDetail';
-import {
-  clampPercentage ,
-  formatNumberPrefix ,
-  normalizedName ,
-} from '@/app/utils';
+import useMyPokemonDetail
+  from '@/app/ui/features/my-pokemon/detail/useMyPokemonDetail';
+import { formatNumberPrefix ,normalizedName } from '@/app/utils';
 import { InfoCard } from '@/app/ui/components';
-import {
-  POKEDEX_COPY ,
-  POKEDEX_FALLBACK_IMAGE ,
-} from '@/app/ui/features/pokedex/constants';
+import { POKEDEX_COPY } from '@/app/ui/features/pokedex/constants';
 import StatsCard from '@/app/ui/components/stats-card';
 import InfoPanel from '@/app/ui/components/info-panel';
 import BattleSummary from '@/app/ui/components/battle-summary';
 import CardBadge from '@/app/ui/components/card-badge';
 import EvolutionChain from '@/app/ui/components/evolution-chain';
+import CardDescription from '@/app/ui/components/card-description';
 
 const MyPokemonDetail = () => {
   const params = useParams();
@@ -63,9 +58,8 @@ const MyPokemonDetail = () => {
 
   const displayName = normalizedName(item.pokemon.name);
   const imageSource =
-    item.pokemon.external_image || item.pokemon.image || POKEDEX_FALLBACK_IMAGE;
+    item.pokemon.external_image || item.pokemon.image || '/icon.svg';
   const evolutions = item.pokemon.evolutions ?? [];
-  const hpPct = clampPercentage(item.hp ,item.max_hp);
 
   return (
     <section
@@ -130,46 +124,13 @@ const MyPokemonDetail = () => {
         <div className="space-y-4">
 
           {/* Description / Nickname */ }
-          <article
-            className="rounded-2xl border border-slate-200/60 bg-white p-5 shadow-sm">
-
-            { item.nickname !== item.pokemon.name && (
-              <div
-                className="mt-4 flex items-center gap-3  border-slate-100 pt-4 text-slate-600">
-                <span
-                  className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                Nickname
-                </span>
-                { item.nickname }
-              </div>
-            ) }
-            <div
-              className={ `mt-4 flex items-center gap-3 border-slate-100 pt-4 text-slate-600 ${ item.nickname !==
-              item.pokemon.name ? 'border-t' : '' }` }>
-              <span
-                className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                { POKEDEX_COPY.detailGenderLabel }
-              </span>
-              <MdMale size={ 22 } aria-label="Male"/>
-              <MdFemale size={ 22 } aria-label="Female"/>
-            </div>
-            <div
-              className="mt-4 flex items-center gap-3 border-t border-slate-100 pt-4 text-slate-600">
-              <span
-                className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                CURRENT HP
-              </span>
-              { item.hp } / { item.max_hp }
-            </div>
-            <div className="col-span-2  px-5 py-3">
-              <div className="h-2.5 overflow-hidden rounded-full bg-white/30">
-                <div
-                  className="h-full rounded-full bg-amber-300 transition-all duration-700"
-                  style={ { width: `${ hpPct }%` } }
-                />
-              </div>
-            </div>
-          </article>
+          <CardDescription
+            hp={ item.hp }
+            name={ item.pokemon.name }
+            maxHp={ item.max_hp }
+            level={ item.level }
+            nickname={ item.nickname }
+          />
 
           <InfoPanel
             height={ item.pokemon.height }

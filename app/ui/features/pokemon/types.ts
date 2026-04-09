@@ -1,5 +1,6 @@
 import { TPokemonType } from '@/app/ui/features/pokemon/type/types';
 import { TPokemonAbility } from '@/app/ui/features/pokemon/ability';
+import { TPokemonMove } from '@/app/ui/features/pokemon/move';
 
 export type TPokemonEvolution = {
   id: string;
@@ -8,6 +9,7 @@ export type TPokemonEvolution = {
   image?: string;
   external_image: string;
   types?: Array<TPokemonType>;
+  moves?: Array<TPokemonMove>;
 };
 
 export type TPokemon = {

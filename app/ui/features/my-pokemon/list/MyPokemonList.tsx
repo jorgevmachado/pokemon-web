@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { FiltersProps ,InfoCard ,Pagination } from '@/app/ui/components';
 
 import type { MyPokemonFilters as MyPokemonFiltersProps ,TMyPokemon } from '../types';
-import useMyPokemonList from '../useMyPokemonList';
+import useMyPokemonList from './useMyPokemonList';
 import { TPokemon ,usePokemonTypeList } from '../../pokemon';
 import Card from '@/app/ui/components/card';
 import Filters from '@/app/ui/components/filters';

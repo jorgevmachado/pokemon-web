@@ -8,7 +8,7 @@ import { FiltersProps ,InfoCard ,Pagination } from '@/app/ui/components';
 
 import { POKEDEX_COPY } from '../constants';
 import type { PokedexFilters as PokedexFiltersProps ,TPokedex } from '../types';
-import usePokedexList from '../usePokedexList';
+import usePokedexList from './usePokedexList';
 import { TPokemon ,usePokemonTypeList } from '../../pokemon';
 import Card from '@/app/ui/components/card';
 import { CardTagProps } from '@/app/ui/components/card/tag';

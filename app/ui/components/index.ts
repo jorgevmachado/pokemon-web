@@ -4,6 +4,7 @@ export * from './bar-chart';
 export * from './battle-summary';
 export * from './card';
 export * from './card-badge';
+export * from './card-description';
 export * from './evolution-chain';
 export * from './filters';
 export * from './info-card';
