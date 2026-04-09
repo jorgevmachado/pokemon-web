@@ -79,3 +79,7 @@ export type TPokedex = {
   discovered_at?: Date
   pokemon: TPokemon;
 }
+
+export type WildPokemon = {
+  habitat?: string;
+}

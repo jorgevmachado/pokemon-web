@@ -1,1 +1,6 @@
-export { createMockAuthToken, extractAuthToken,isValidAuthToken } from './token';
+export {
+  createMockAuthToken,
+  extractAuthToken,
+  getAuthTokenExpiration,
+  isValidAuthToken,
+} from './token';

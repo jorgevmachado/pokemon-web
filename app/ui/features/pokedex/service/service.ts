@@ -1,5 +1,9 @@
 import { BaseServiceAbstract } from '@/app/shared/services/service/service';
-import { PokedexListQuery ,TPokedex } from '@/app/ui/features/pokedex/types';
+import {
+  PokedexListQuery ,
+  TPokedex ,
+  WildPokemon,
+} from '@/app/ui/features/pokedex/types';
 import { TPaginatedListResponse  } from '@/app/ui/components/pagination/types';
 import { omitUndefined } from '@/app/utils';
 
@@ -16,6 +20,10 @@ export class PokedexService extends BaseServiceAbstract {
 
   public async getById(id: string): Promise<TPokedex> {
     return this.get<TPokedex>(`${this.pathUrl}/${id}`);
+  }
+  
+  public async wild(params: WildPokemon): Promise<TPokedex> {
+    return this.post<WildPokemon,TPokedex>(`${this.pathUrl}/wild`,{ body: params, });
   }
 }
 

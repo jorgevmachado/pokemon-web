@@ -4,6 +4,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import React, { useCallback, useState } from 'react';
 
 import { logoutAction } from '@/app/actions/auth';
+import { useUser } from '@/app/ui/features/auth';
 
 import { Breadcrumb } from '@/app/ui/components/breadcrumb';
 
@@ -21,6 +22,7 @@ const NavigationFrame = ({ isAuthenticated, children }: NavigationFrameProps) =>
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const { clearUser } = useUser();
   const isSidebarVisible = isAuthenticated && !isSidebarCollapsed;
 
   const handleToggleSidebar = useCallback(() => {
@@ -28,10 +30,11 @@ const NavigationFrame = ({ isAuthenticated, children }: NavigationFrameProps) =>
   }, []);
 
   const handleLogout = useCallback(async () => {
+    clearUser();
     await logoutAction();
     router.push('/login');
     router.refresh();
-  }, [router]);
+  }, [clearUser, router]);
 
   return (
     <div className='app-shell'>

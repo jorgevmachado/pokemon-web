@@ -40,6 +40,20 @@ const parseTokenPayload = (token: string): SessionPayload | null => {
   }
 };
 
+export const getAuthTokenExpiration = (token?: string): number | null => {
+  if (!token) {
+    return null;
+  }
+
+  const payload = parseTokenPayload(token);
+
+  if (!payload?.exp) {
+    return null;
+  }
+
+  return payload.exp * 1000;
+};
+
 export const isValidAuthToken = (token?: string): boolean => {
   if (!token) {
     return false;

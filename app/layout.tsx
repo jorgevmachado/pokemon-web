@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import React from 'react';
 
 import { getServerSession } from '@/app/shared/lib/auth/server';
+import { UserProvider } from '@/app/ui/features/auth';
+import { getAuthenticatedUserBootstrap } from '@/app/ui/features/auth/user/server';
 import { NavigationFrame } from '@/app/ui/features/navigation';
 import { AlertProvider } from '@/app/ui/components/alert';
 import { LoadingProvider } from '@/app/ui/components/loading';
@@ -38,6 +40,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession();
+  const { initialUser, tokenExpiresAt } = await getAuthenticatedUserBootstrap(
+    session.isAuthenticated,
+    session.token,
+  );
+  const isAuthenticated = session.isAuthenticated && Boolean(initialUser);
 
   return (
     <html
@@ -47,11 +54,18 @@ export default async function RootLayout({
     >
       <body className='antialiased'>
         <AlertProvider>
-          <LoadingProvider>
-            <BreadcrumbProvider>
-              <NavigationFrame isAuthenticated={session.isAuthenticated}>{children}</NavigationFrame>
-            </BreadcrumbProvider>
-          </LoadingProvider>
+          <UserProvider
+            key={session.token || 'guest-session'}
+            initialUser={initialUser}
+            isAuthenticated={isAuthenticated}
+            tokenExpiresAt={isAuthenticated ? tokenExpiresAt : null}
+          >
+            <LoadingProvider>
+              <BreadcrumbProvider>
+                <NavigationFrame isAuthenticated={isAuthenticated}>{children}</NavigationFrame>
+              </BreadcrumbProvider>
+            </LoadingProvider>
+          </UserProvider>
         </AlertProvider>
       </body>
     </html>
