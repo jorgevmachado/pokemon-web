@@ -22,7 +22,7 @@ const CardBadge = ({
         {badges.map((badge) => (
           <Badge
             key={badge.id}
-            name={badge.name}
+            {...badge}
             textColor={!randomColors ? badge.textColor : undefined}
             backgroundColor={!randomColors ? badge.backgroundColor : undefined}
           />

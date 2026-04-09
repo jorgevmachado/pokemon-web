@@ -2,6 +2,7 @@ export * from './alert';
 export * from './badge';
 export * from './bar-chart';
 export * from './battle-summary';
+export * from './blank-card';
 export * from './card';
 export * from './card-badge';
 export * from './card-description';

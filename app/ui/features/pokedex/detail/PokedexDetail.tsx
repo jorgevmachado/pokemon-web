@@ -150,6 +150,7 @@ const PokedexDetail = () => {
               badges={ item.pokemon.types.map((type) => ({
                 id: type.id ,
                 name: normalizedName(type.name) ,
+                shadow: 'sm',
                 textColor: type.text_color ,
                 backgroundColor: type.background_color ,
               })) }
@@ -162,6 +163,7 @@ const PokedexDetail = () => {
               badges={ item.pokemon.abilities.map((type) => ({
                 id: type.id ,
                 name: normalizedName(type.name) ,
+                shadow: 'sm',
               })) }
             />
           ) }

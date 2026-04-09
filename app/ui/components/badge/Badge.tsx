@@ -1,5 +1,5 @@
 import React ,{ useMemo } from 'react';
-import { joinClass ,normalizedName } from '@/app/utils';
+import { joinClass } from '@/app/utils';
 import { CardTagTone } from '@/app/ui/components/card/tag';
 import { BadgeProps } from '@/app/ui/components/badge/types';
 
@@ -37,21 +37,27 @@ const getNextRandomTone = (): CardTagTone => {
 };
 
 const Badge = ({
-  name,
-  textColor,
-  backgroundColor
+  name ,
+  icon ,
+  type = 'style' ,
+  font = 'semibold' ,
+  shadow ,
+  rounded = 'lg' ,
+  textColor ,
+  backgroundColor,
 }: BadgeProps) => {
-  const hasStyle = textColor || backgroundColor;
-  
+  const isTypeStyle = type === 'style';
+  const hasColors = textColor || backgroundColor;
+
   const style = useMemo(() => {
-    if (!hasStyle) {
+    if (!hasColors && !isTypeStyle) {
       return {};
     }
     return {
-      color: textColor,
-      backgroundColor: backgroundColor,
+      color: textColor ,
+      backgroundColor: backgroundColor ,
     };
-  }, [hasStyle, textColor, backgroundColor]);
+  } ,[hasColors ,isTypeStyle ,textColor ,backgroundColor]);
 
   const randomBadgeTone = (): string => {
     const randomTone = getNextRandomTone();
@@ -59,33 +65,61 @@ const Badge = ({
   };
 
   const randomToneClassName = useMemo(() => {
-    if (hasStyle) {
+    if (hasColors) {
       return '';
     }
 
     return randomBadgeTone();
-  }, [hasStyle]);
+  } ,[hasColors]);
 
-  const className = joinClass([
-    'inline-flex' ,
-    'min-w-24' ,
-    'items-center' ,
-    'justify-center' ,
-    'rounded-lg' ,
-    'px-4' ,
-    'py-1.5' ,
-    'text-sm' ,
-    'font-semibold' ,
-    'shadow-sm' ,
-    !hasStyle && randomToneClassName,
-  ]);
-  
+  const className = useMemo(() => {
+    const classNames: Array<string> = [
+      'inline-flex' ,
+      'items-center' ,
+      'py-1.5' ,
+      'px-3' ,
+      `font-${ font }` ,
+      `rounded-${ rounded }`,
+    ];
+
+    if (type === 'class' && backgroundColor) {
+      classNames.push(backgroundColor);
+    }
+
+    if (type === 'class' && textColor) {
+      classNames.push(textColor);
+    }
+
+    if (!backgroundColor && !textColor) {
+      classNames.push(randomToneClassName);
+    }
+
+    if (icon) {
+      classNames.push('gap-2');
+    }
+
+    if (shadow) {
+      classNames.push(`shadow-${ shadow }`);
+    }
+
+    return joinClass(classNames);
+  } ,[
+    font ,
+    rounded ,
+    type ,
+    backgroundColor ,
+    textColor ,
+    icon ,
+    shadow ,
+    randomToneClassName]);
+
   return (
     <span
       className={ className }
-      style={style}
+      style={ style }
     >
-      {normalizedName(name)}
+      { icon }
+      { name }
     </span>
   );
 };
