@@ -60,14 +60,14 @@ const readRegisterPayload = (formData: FormData): RegisterUserPayload => {
   };
 };
 
-const validateLoginPayload = ({ email }: SignInParams): AuthActionState | null => {
+const validateLoginPayload = ({ email, password }: SignInParams): AuthActionState | null => {
   if (!isValidEmail(email)) {
     return toErrorState(INVALID_EMAIL_MESSAGE);
   }
 
-  // if (!isStrongPassword(password)) {
-  //   return toErrorState(PASSWORD_RULE_MESSAGE);
-  // }
+  if (!isStrongPassword(password)) {
+    return toErrorState(PASSWORD_RULE_MESSAGE);
+  }
 
   return null;
 };
@@ -140,6 +140,19 @@ export async function registerAction(_: AuthActionState, formData: FormData): Pr
 
   if (validationError) {
     return validationError;
+  }
+
+  try {
+    const service = authService();
+    await service.register({
+      name: payload.fullName,
+      email: payload.email,
+      gender: payload.gender,
+      password: payload.password,
+      date_of_birth: payload.birthDate,
+    });
+  } catch (error) {
+    return mapLoginError(error);
   }
 
   return {

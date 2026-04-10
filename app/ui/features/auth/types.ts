@@ -35,3 +35,11 @@ export type TTrainer = {
   pokedex: Array<TPokedex>;
   captured_pokemons: Array<TMyPokemon>;
 }
+
+export type SignUpParams = {
+  name: string;
+  email: string;
+  gender: string;
+  password: string;
+  date_of_birth: string;
+}

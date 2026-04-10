@@ -2,7 +2,7 @@ import { BaseServiceAbstract } from '@/app/shared/services/service/service';
 
 import {
   LoginResponsePayload ,
-  SignInParams ,TTrainer ,
+  SignInParams ,SignUpParams ,TTrainer ,
 } from '@/app/ui/features/auth/types';
 import { extractAuthToken } from '@/app/shared/lib/auth/token';
 
@@ -24,4 +24,9 @@ export class AuthService extends BaseServiceAbstract {
     return await this.get<TTrainer>(`${this.pathUrl}/me`);
   }
 
+  async register(payload: SignUpParams): Promise<TTrainer> {
+    return await this.post<SignUpParams, TTrainer>('trainers', {
+      body: payload,
+    });
+  }
 }

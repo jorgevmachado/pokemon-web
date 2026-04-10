@@ -13,6 +13,7 @@ import { PASSWORD_PATTERN } from '../../constants';
 import { INITIAL_AUTH_ACTION_STATE } from '../../types';
 import { useRequiredFields } from '../useRequiredFields';
 import '../AuthForm.scss';
+import { useRouter } from 'next/navigation';
 
 type RegisterFormProps = {
   showLoginShortcut?: boolean;
@@ -49,9 +50,10 @@ const INITIAL_VALUES: RegisterValues = {
 
 const RegisterForm = ({ showLoginShortcut = true }: RegisterFormProps) => {
   const [state, action] = useActionState(registerAction, INITIAL_AUTH_ACTION_STATE);
+  const router = useRouter();
   const lastServerMessageRef = useRef('');
   const { showAlert } = useAlert();
-  const { stopPageLoading } = useLoading();
+  const { startPageLoading, stopPageLoading } = useLoading();
   const { values, errors, setFieldValue, validateRequiredFields } =
     useRequiredFields<RegisterValues>(INITIAL_VALUES);
 
@@ -81,7 +83,11 @@ const RegisterForm = ({ showLoginShortcut = true }: RegisterFormProps) => {
         type: 'warning',
         message: COPY.requiredFieldsWarning,
       });
+      return;
     }
+
+    startPageLoading();
+    router.push('/login');
   };
 
   return (
@@ -143,10 +149,9 @@ const RegisterForm = ({ showLoginShortcut = true }: RegisterFormProps) => {
               <option value='' disabled>
                 Select
               </option>
-              <option value='female'>Female</option>
-              <option value='male'>Male</option>
-              <option value='non-binary'>Non-binary</option>
-              <option value='other'>Other</option>
+              <option value='FEMALE'>Female</option>
+              <option value='MALE'>Male</option>
+              <option value='OTHER'>Other</option>
             </select>
           </AuthField>
 
