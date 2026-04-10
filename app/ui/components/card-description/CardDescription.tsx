@@ -1,6 +1,6 @@
 import { MdFemale ,MdMale } from 'react-icons/md';
 import React from 'react';
-import { clampPercentage } from '@/app/utils';
+import { BarChart } from '@/app/ds';
 
 type CardDescriptionProps = {
   hp: number;
@@ -14,9 +14,8 @@ const CardDescription = ({
   name ,
   level ,
   maxHp ,
-  nickname,
+  nickname ,
 }: CardDescriptionProps) => {
-  const hpPct = clampPercentage(hp ,maxHp);
   return (
     <article
       className="rounded-2xl border border-slate-200/60 bg-white p-5 shadow-sm">
@@ -57,14 +56,15 @@ const CardDescription = ({
         </span>
         { hp } / { maxHp }
       </div>
-      <div className="col-span-2  px-5 py-3">
-        <div className="h-2.5 overflow-hidden rounded-full bg-white/30">
-          <div
-            className="h-full rounded-full bg-amber-300 transition-all duration-700"
-            style={ { width: `${ hpPct }%` } }
-          />
-        </div>
-      </div>
+      <BarChart
+        value={ hp }
+        showValue={ false }
+        compareValue={ maxHp }
+        maxValue={ 100 }
+        tone="auto"
+        size="md"
+        className="col-span-2 px-5 py-3"
+      />
     </article>
   );
 };

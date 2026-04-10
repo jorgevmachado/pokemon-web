@@ -1,7 +1,6 @@
 export * from './alert';
-export * from './badge';
 export * from './bar-chart';
-export * from './battle-summary';
+export { default as BattleSummary, type BattleSummaryProps } from './battle-summary';
 export * from './blank-card';
 export * from './card';
 export * from './card-badge';
@@ -10,5 +9,7 @@ export * from './evolution-chain';
 export * from './filters';
 export * from './info-card';
 export * from './loading';
+export { default as Modal, useModal } from './modal';
 export * from './pagination';
-export * from './stats-card';
+export { default as StatsCard, type StatsCardProps } from './stats-card';
+export * from './types';

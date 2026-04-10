@@ -1,10 +1,10 @@
-import { BadgeProps } from '@/app/ui';
-import Badge from '@/app/ui/components/badge';
+import { BadgeProps } from '@/app/ds';
+import { Badge } from '@/app/ds';
 import React from 'react';
 
 type CardBadgeProps = {
   title: string;
-  badges: Array<BadgeProps & { id: string }>;
+  badges: Array<Omit<BadgeProps, 'children'> & { id: string; name: string; }>;
   randomColors?: boolean;
 }
 
@@ -22,10 +22,12 @@ const CardBadge = ({
         {badges.map((badge) => (
           <Badge
             key={badge.id}
-            {...badge}
-            textColor={!randomColors ? badge.textColor : undefined}
-            backgroundColor={!randomColors ? badge.backgroundColor : undefined}
-          />
+            size="lg"
+            random={randomColors}
+            style={randomColors ? {} : badge.style}
+          >
+            {badge.name}
+          </Badge>
         ))}
       </div>
     </article>

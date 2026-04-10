@@ -1,7 +1,6 @@
 'use client';
 
 import React ,{ useMemo } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import {
   MdCatchingPokemon ,
@@ -12,29 +11,20 @@ import {
   MdOutlineVerified ,
 } from 'react-icons/md';
 
-import { Alert } from '@/app/ui/components';
+import { Alert ,useModal } from '@/app/ui/components';
 import { useUser } from '@/app/ui/features/auth';
 
 import { HOME_COPY } from './constants';
 import useHomeOverview from './useHomeOverview';
-import Badge from '@/app/ui/components/badge';
+import { Badge } from '@/app/ds';
 import BlankCard from '@/app/ui/components/blank-card';
 import Card from '@/app/ui/components/card/Card';
-
-const toDisplayDate = (value: string): string => {
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-
-  return new Intl.DateTimeFormat('en-US' ,{
-    dateStyle: 'medium' ,
-    timeStyle: 'short' ,
-  }).format(date);
-};
+import { displayDate } from '@/app/utils/string/string';
+import { Button } from '@/app/ds';
 
 const HomeDashboard = () => {
+  const { openModal ,modal ,closeModal } = useModal();
+
   const router = useRouter();
   const { user } = useUser();
   const {
@@ -103,15 +93,6 @@ const HomeDashboard = () => {
     ];
   } ,[capturedPokemonCount ,discoveredPokedexCount ,user]);
 
-  const wildPokemonName = useMemo(() => {
-    return wildEncounter?.pokemon?.name || 'Unknown Pokemon';
-  } ,[wildEncounter?.pokemon?.name]);
-
-  const wildPokemonImage = useMemo(() => {
-    return wildEncounter?.pokemon?.external_image ||
-      wildEncounter?.pokemon?.image || '/icon.svg';
-  } ,[wildEncounter?.pokemon?.external_image ,wildEncounter?.pokemon?.image]);
-
   if (!user) {
     return null;
   }
@@ -127,49 +108,109 @@ const HomeDashboard = () => {
     router.push(`/battle?wildId=${ wildEncounter.id }`);
   };
 
+  const HandleOpenModal = () => {
+    const myPokemon = topLevelPokemons[0];
+    openModal({
+      title: 'Delete Account' ,
+      width: '5xl',
+      body: (
+        <Card
+          key={ myPokemon.id }
+          id={ myPokemon.id }
+          type="LIST"
+          tags={ myPokemon?.pokemon?.types?.map((type) => ({
+            key: type.id ,
+            name: type.name ,
+            style: {
+              color: type.text_color ,
+              backgroundColor: type.background_color ,
+            } ,
+          })) }
+          name={ myPokemon.pokemon.name }
+          order={ myPokemon.pokemon.order }
+          nickname={ myPokemon.nickname }
+          image={ {
+            image: myPokemon.pokemon.image ,
+            externalImage: myPokemon.pokemon.external_image ,
+            size: 'md' ,
+          } }
+          showInfo={ true }
+          onClick={ (item) => {
+            router.push(`/my-pokemon/${ item.id }`);
+          } }
+          stats={ {
+            hp: myPokemon.hp ,
+            maxHp: myPokemon.max_hp ,
+            attack: myPokemon.attack ,
+            defense: myPokemon.defense ,
+            withBorder: false ,
+            specialAttack: myPokemon.special_attack ,
+            specialDefense: myPokemon.special_defense ,
+            speed: myPokemon.speed ,
+          } }
+          battleSummary={ {
+            wins: myPokemon.wins ,
+            losses: myPokemon.losses ,
+            battles: myPokemon.battles ,
+            withBorder: false ,
+            className: 'pt-4',
+          } }
+        />
+      ) ,
+      closeOnEsc: true ,
+      closeOnOutsideClick: true ,
+      submitButton: {
+        label: 'Delete' ,
+        onClick: () => console.log('# => Delete Account') ,
+      } ,
+      closeButton: {
+        label: 'Cancel' ,
+        onClick: () => closeModal() ,
+      } ,
+    });
+  };
+
   return (
     <section className="mx-auto w-full max-w-6xl space-y-5">
       <header
         className="rounded-2xl border border-slate-200 bg-linear-to-r from-white to-slate-50 p-6 shadow-sm">
         <p
-          className="text-xs font-semibold uppercase tracking-wide text-blue-700">{ HOME_COPY.dashboardLabel }</p>
+          className="text-xs font-semibold uppercase tracking-wide text-blue-700">
+          { HOME_COPY.dashboardLabel }
+        </p>
         <h2
-          className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{ HOME_COPY.title }</h2>
-        <p
-          className="mt-2 max-w-2xl text-sm text-slate-600 sm:text-base">{ HOME_COPY.subtitle }</p>
-
+          className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+          { HOME_COPY.title }
+        </h2>
+        <p className="mt-2 max-w-2xl text-sm text-slate-600 sm:text-base">
+          { HOME_COPY.subtitle }
+        </p>
         <div
           className="mt-5 flex flex-wrap items-center gap-4 text-sm text-slate-700">
           <Badge
-            name={ user.name }
-            icon={ <MdOutlinePerson aria-hidden="true"/> }
-            font="medium"
-            type="class"
-            rounded="full"
-            textColor="text-blue-700"
-            backgroundColor="bg-blue-50"
-          />
+            size="lg"
+            tone="primary"
+            iconLeft={ <MdOutlinePerson aria-hidden="true"/> }
+          >
+            { user.name }
+          </Badge>
           <Badge
-            name={ user.email }
-            icon={ <MdOutlineEmail aria-hidden="true"/> }
-            font="medium"
-            type="class"
-            rounded="full"
-            backgroundColor="bg-slate-100"
-          />
+            size="lg"
+            tone="neutral"
+            iconLeft={ <MdOutlineEmail aria-hidden="true"/> }
+          >
+            { user.email }
+          </Badge>
           <Badge
-            name={ user.status }
-            icon={ <MdOutlineVerified aria-hidden="true"/> }
-            font="medium"
-            type="class"
-            rounded="full"
-            textColor="text-emerald-700"
-            backgroundColor="bg-emerald-50"
-          />
+            size="lg"
+            tone="success"
+            iconLeft={ <MdOutlineVerified aria-hidden="true"/> }
+          >
+            { user.status }
+          </Badge>
+
         </div>
       </header>
-
-
       { isUsingFallbackData ? (
         <Alert type="warning">
           { HOME_COPY.fallbackNotice }
@@ -178,7 +219,8 @@ const HomeDashboard = () => {
 
       { errorMessage ? <Alert type="error">{ errorMessage }</Alert> : null }
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+      <div
+        className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
         aria-label="trainer-metrics">
         { metrics.map((metric) => (
           <BlankCard
@@ -217,8 +259,8 @@ const HomeDashboard = () => {
             } ,
             {
               label: HOME_COPY.profile.dateOfBirth ,
-              value: toDisplayDate(String(user.date_of_birth)) ,
-            },
+              value: displayDate(String(user.date_of_birth)) ,
+            } ,
           ] }
         />
         <BlankCard
@@ -239,28 +281,31 @@ const HomeDashboard = () => {
             } ,
             {
               label: HOME_COPY.activity.lastLogin ,
-              value: toDisplayDate(String(user.last_authentication_at)) ,
+              value: displayDate(String(user.last_authentication_at)) ,
             } ,
             {
               label: HOME_COPY.activity.createdAt ,
-              value: toDisplayDate(String(user.created_at)) ,
+              value: displayDate(String(user.created_at)) ,
             } ,
             {
               label: HOME_COPY.activity.updatedAt ,
-              value: toDisplayDate(String(user.updated_at)) ,
-            },
+              value: displayDate(String(user.updated_at)) ,
+            } ,
           ] }
         />
       </div>
 
       <article
         className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3
-          className="text-lg font-semibold text-slate-900">{ HOME_COPY.topTeam.title }</h3>
+        <h3 className="text-lg font-semibold text-slate-900">
+          { HOME_COPY.topTeam.title }
+        </h3>
 
         { topLevelPokemons.length === 0 ? (
           <p
-            className="mt-3 text-sm text-slate-600">{ HOME_COPY.topTeam.empty }</p>
+            className="mt-3 text-sm text-slate-600">
+            { HOME_COPY.topTeam.empty }
+          </p>
         ) : (
           <div className="mt-4 grid gap-3 md:grid-cols-3">
             { topLevelPokemons.map((myPokemon) => (
@@ -298,12 +343,14 @@ const HomeDashboard = () => {
           className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3
-              className="inline-flex items-center gap-2 text-lg font-semibold text-slate-900">
+              className="inline-flex items-center gap-2 text-lg font-semibold text-slate-900"
+            >
               <MdOutlineSecurity aria-hidden="true"/>
               { HOME_COPY.encounter.title }
             </h3>
-            <p
-              className="mt-1 text-sm text-slate-600">{ HOME_COPY.encounter.description }</p>
+            <p className="mt-1 text-sm text-slate-600">
+              { HOME_COPY.encounter.description }
+            </p>
           </div>
           <button
             type="button"
@@ -330,8 +377,10 @@ const HomeDashboard = () => {
             aria-labelledby="wild-encounter-title"
             className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-5 shadow-xl sm:p-6"
           >
-            <h3 id="wild-encounter-title"
-              className="text-xl font-bold text-slate-900">
+            <h3
+              id="wild-encounter-title"
+              className="text-xl font-bold text-slate-900"
+            >
               { HOME_COPY.encounter.modalTitle }
             </h3>
             <p
@@ -339,24 +388,30 @@ const HomeDashboard = () => {
 
             <div
               className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-              <div className="flex items-center gap-4">
-                <div
-                  className="relative h-24 w-24 overflow-hidden rounded-xl bg-white">
-                  <Image
-                    src={ wildPokemonImage }
-                    alt={ `${ wildPokemonName } artwork` }
-                    fill
-                    className="object-contain p-2"
-                    unoptimized
-                  />
-                </div>
-                <div>
-                  <p
-                    className="text-lg font-bold text-slate-900">{ wildPokemonName }</p>
-                  <p
-                    className="text-sm text-slate-500">#{ wildEncounter.pokemon.order }</p>
-                </div>
-              </div>
+              <Card
+                key={ wildEncounter.id }
+                id={ wildEncounter.id }
+                tags={ wildEncounter?.pokemon?.types?.map((type) => ({
+                  key: type.id ,
+                  name: type.name ,
+                  style: {
+                    color: type.text_color ,
+                    backgroundColor: type.background_color ,
+                  } ,
+                })) }
+                name={ wildEncounter.pokemon.name }
+                order={ wildEncounter.pokemon.order }
+                nickname={ wildEncounter.nickname }
+                image={ {
+                  image: wildEncounter.pokemon.image ,
+                  externalImage: wildEncounter.pokemon.external_image ,
+                  size: 'sm' ,
+                } }
+                showInfo={ true }
+                onClick={ (item) => {
+                  router.push(`/pokedex/${ item.id }`);
+                } }
+              />
             </div>
 
             <div className="mt-6 grid grid-cols-2 gap-3">
@@ -381,8 +436,20 @@ const HomeDashboard = () => {
 
       <p className="inline-flex items-center gap-2 text-xs text-slate-500">
         <MdOutlineCalendarToday aria-hidden="true"/>
-        { `Last update: ${ toDisplayDate(String(user.updated_at)) }` }
+        { `Last update: ${ displayDate(String(user.updated_at)) }` }
       </p>
+
+      { modal }
+      <button onClick={ () => {
+        HandleOpenModal();
+      } }>Open Modal
+      </button>
+
+      <Button
+        tone="success"
+        iconLeft={<MdCatchingPokemon size={ 20 } aria-hidden="true"/>}
+      >FUCK</Button>
+
     </section>
   );
 };

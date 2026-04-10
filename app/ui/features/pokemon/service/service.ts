@@ -8,7 +8,7 @@ export class PokemonService extends BaseServiceAbstract {
   protected typeService: PokemonTypeService;
 
   constructor(baseUrl: string ,token?: string) {
-    super(baseUrl ,'' ,token);
+    super(baseUrl ,'pokemon' ,token);
     this.typeService = new PokemonTypeService(baseUrl ,token);
   }
 

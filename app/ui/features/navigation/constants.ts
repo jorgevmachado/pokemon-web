@@ -10,6 +10,11 @@ export const AUTHENTICATED_MENU_ITEMS: MenuItem[] = [
     icon: MdHome,
   },
   {
+    label: 'Pokemon',
+    href: '/pokemon',
+    icon: MdCatchingPokemon,
+  },
+  {
     label: 'Pokedex',
     href: '/pokedex',
     icon: MdCatchingPokemon,

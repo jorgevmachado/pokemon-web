@@ -105,15 +105,18 @@ const PokedexDetail = () => {
           {/* Stats */ }
           <StatsCard
             hp={ item.hp }
+            title="STATS"
+            maxHp={ item.max_hp }
             speed={ item.speed }
             attack={ item.attack }
             defense={ item.defense }
-            special_attack={ item.special_attack }
-            special_defense={ item.special_defense }
+            specialAttack={ item.special_attack }
+            specialDefense={ item.special_defense }
           />
 
           {/* Battle summary */ }
           <BattleSummary
+            title="BATTLE SUMMARY"
             wins={ item.wins }
             battles={ item.battles }
             losses={ item.losses }
@@ -150,9 +153,10 @@ const PokedexDetail = () => {
               badges={ item.pokemon.types.map((type) => ({
                 id: type.id ,
                 name: normalizedName(type.name) ,
-                shadow: 'sm',
-                textColor: type.text_color ,
-                backgroundColor: type.background_color ,
+                style: {
+                  color: type.text_color ,
+                  backgroundColor: type.background_color ,
+                }
               })) }
             />
           ) }
@@ -163,8 +167,8 @@ const PokedexDetail = () => {
               badges={ item.pokemon.abilities.map((type) => ({
                 id: type.id ,
                 name: normalizedName(type.name) ,
-                shadow: 'sm',
               })) }
+              randomColors={true}
             />
           ) }
         </div>

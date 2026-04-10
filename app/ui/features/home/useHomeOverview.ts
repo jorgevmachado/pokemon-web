@@ -6,6 +6,7 @@ import { TPokedex } from '@/app/ui/features/pokedex/types';
 
 import { HOME_COPY } from './constants';
 import { HomeViewState, UseHomeOverviewResult } from './types';
+import { useLoading } from '@/app/ui';
 
 type ApiErrorResponse = {
   message?: string;
@@ -40,6 +41,7 @@ const readApiMessage = (value: unknown, fallback: string): string => {
 
 const useHomeOverview = (): UseHomeOverviewResult => {
   const [state, setState] = useState<HomeViewState>(INITIAL_STATE);
+  const { startContentLoading, stopContentLoading } = useLoading();
 
   const findWildPokemon = useCallback(async (): Promise<void> => {
     setState((previousState) => ({
@@ -47,7 +49,7 @@ const useHomeOverview = (): UseHomeOverviewResult => {
       isFindingWild: true,
       errorMessage: null,
     }));
-
+    startContentLoading();
     try {
       const response = await fetch('/api/pokedex/wild', {
         method: 'POST',
@@ -87,8 +89,10 @@ const useHomeOverview = (): UseHomeOverviewResult => {
         isFindingWild: false,
         errorMessage,
       }));
+    } finally {
+      stopContentLoading();
     }
-  }, []);
+  }, [startContentLoading, stopContentLoading]);
 
   const closeEncounter = useCallback(() => {
     setState((previousState) => ({

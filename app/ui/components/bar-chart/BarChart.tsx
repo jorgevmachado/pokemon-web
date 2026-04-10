@@ -1,10 +1,11 @@
 import { clampPercentage } from '@/app/utils';
-import React from 'react';
+import React ,{ useMemo } from 'react';
 
 type BarChartProps = {
   label: string;
   value: number;
   maxValue?: number;
+  compareValue?: number;
 };
 
 const getStatBarColor = (value: number): string => {
@@ -14,9 +15,15 @@ const getStatBarColor = (value: number): string => {
   return 'bg-rose-500';
 };
 
-const BarChart = ({ label, value, maxValue = 255 }: BarChartProps) => {
-  const pct = clampPercentage(value, maxValue);
-  const barColor = getStatBarColor(value);
+const BarChart = ({ label, value, maxValue = 255, compareValue }: BarChartProps) => {
+  const currentValue = useMemo(() => {
+    if (compareValue) {
+      return clampPercentage(value, compareValue);
+    }
+    return value;
+  }, [compareValue, value]);
+  const pct = clampPercentage(currentValue, maxValue);
+  const barColor = getStatBarColor(currentValue);
 
   return (
     <div className='flex items-center gap-3'>

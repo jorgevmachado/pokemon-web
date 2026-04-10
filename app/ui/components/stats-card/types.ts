@@ -1,15 +1,17 @@
+import type { BarChartProps } from '@/app/ds';
+
 export type StatsCardProps = {
   hp: number;
+  maxHp?: number;
   title?: string;
   speed: number;
   attack: number;
   defense: number;
-  special_attack: number;
-  special_defense: number;
+  withBorder?: boolean;
+  specialAttack: number;
+  specialDefense: number;
 }
 
-export type TStatEntry = {
+export type TStatEntry = BarChartProps &{
   key: string;
-  label: string;
-  value: number;
 };

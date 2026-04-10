@@ -1,3 +1,4 @@
+export * from './array';
 export { default as joinClass } from './join-class';
 export * from './number';
 export * from './object';

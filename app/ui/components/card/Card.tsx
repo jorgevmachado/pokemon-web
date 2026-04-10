@@ -1,9 +1,15 @@
-import React from 'react';
+import React ,{ useMemo } from 'react';
 import CardImage ,{ CardImageProps } from '@/app/ui/components/card/image';
 import { formatNumberPrefix ,joinClass } from '@/app/utils';
 import CardTag ,{ CardTagProps } from '@/app/ui/components/card/tag';
+import {
+  BattleSummary ,
+  BattleSummaryProps ,
+  StatsCard ,
+  StatsCardProps ,
+} from '@/app/ui';
 
-type CardImage = Omit<CardImageProps, 'displayName' | 'showImage'>;
+type CardImage = Omit<CardImageProps ,'displayName' | 'showImage'>;
 
 type CardOnClickParams = {
   id: string;
@@ -14,6 +20,7 @@ type CardOnClickParams = {
 
 type CardProps = {
   id: string;
+  type?: 'DETAIL' | 'LIST';
   tags?: Array<CardTagProps>;
   name?: string;
   order: number;
@@ -21,17 +28,22 @@ type CardProps = {
   nickname?: string;
   showInfo?: boolean;
   onClick?: (item: CardOnClickParams) => void;
+  stats?: StatsCardProps;
+  battleSummary?: BattleSummaryProps;
 };
 
 const Card = ({
-  id,
-  tags,
-  name,
-  order,
-  image,
-  nickname,
-  showInfo,
-  onClick,
+  id ,
+  type = 'LIST' ,
+  tags ,
+  name ,
+  order ,
+  image ,
+  nickname ,
+  showInfo ,
+  onClick ,
+  stats ,
+  battleSummary ,
 }: CardProps) => {
   const displayName = nickname || name || 'Unknown Pokémon';
   const displaySubName = name && name !== displayName ?
@@ -42,39 +54,55 @@ const Card = ({
     event.stopPropagation();
     if (onClick) {
       onClick({
-        id,
-        name: name || 'Unknown Pokémon',
-        order,
-        nickname,
+        id ,
+        name: name || 'Unknown Pokémon' ,
+        order ,
+        nickname ,
       });
     }
   };
 
+  const headerClassName = useMemo(() => {
+    const classNames = [
+      'flex' ,
+      'space-y-1',
+    ];
+    if (type === 'LIST') {
+      classNames.push('flex-col');
+      classNames.push('gap-2');
+    }
+    if (type === 'DETAIL') {
+      classNames.push('items-center');
+      classNames.push('justify-between');
+    }
+    return joinClass(classNames);
+  } ,[type]);
+
   return (
     <article
-      onClick={handleOnClick}
+      onClick={ handleOnClick }
       className={
         joinClass([
           'group' ,
           'rounded-[1.75rem]' ,
-          'border',
-          'border-slate-200/80',
-          'bg-white/95',
-          'p-4',
-          'shadow-[0_18px_45px_-28px_rgba(15,23,42,0.34)]',
-          'transition',
-          'duration-300',
-          'hover:-translate-y-1',
-          'hover:border-blue-200',
-          'hover:shadow-[0_24px_60px_-30px_rgba(37,99,235,0.28)]',
-          onClick && 'cursor-pointer'
+          'border' ,
+          'border-slate-200/80' ,
+          'bg-white/95' ,
+          'p-4' ,
+          'shadow-[0_18px_45px_-28px_rgba(15,23,42,0.34)]' ,
+          'transition' ,
+          'duration-300' ,
+          'hover:-translate-y-1' ,
+          'hover:border-blue-200' ,
+          'hover:shadow-[0_24px_60px_-30px_rgba(37,99,235,0.28)]' ,
+          onClick && 'cursor-pointer',
         ])
       }
     >
       <CardImage
-        {...image}
-        showImage={showInfo}
-        displayName={displayName}
+        { ...image }
+        showImage={ showInfo }
+        displayName={ displayName }
       />
 
       <div className="space-y-3 px-1 pb-1 pt-4">
@@ -83,7 +111,7 @@ const Card = ({
           { formatNumberPrefix({ value: order }) }
         </p>
 
-        <div className="space-y-1">
+        <div className={ headerClassName }>
           <h3 className={ joinClass([
             'wrap-break-word' ,
             'text-[2rem]' ,
@@ -93,18 +121,26 @@ const Card = ({
             showInfo ? 'text-slate-800' : 'text-slate-400' ,
           ]) }>
             { displayName }
+            { displaySubName && (
+              <p
+                className="text-sm font-medium text-slate-500">({ displaySubName })</p>
+            ) }
           </h3>
-          { displaySubName && (
-            <p className="text-sm font-medium text-slate-500">{ displaySubName }</p>
+
+          { tags && tags.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              { tags.map((tag) => <CardTag { ...tag } key={ tag.key }/>) }
+            </div>
           ) }
         </div>
 
-        { tags && tags.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            { tags.map((tag) => <CardTag {...tag} key={tag.key} /> )}
-          </div>
-        )}
+        { stats && (
+          <StatsCard { ...stats } />
+        ) }
 
+        { battleSummary && (
+          <BattleSummary { ...battleSummary } />
+        ) }
 
       </div>
 
