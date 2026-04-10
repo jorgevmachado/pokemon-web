@@ -21,4 +21,8 @@ export class PokemonService extends BaseServiceAbstract {
     return this.get<TPaginatedListResponse<TPokemon> | Array<TPokemon>>(
       this.pathUrl ,{ params: { ...sanitizedParams } });
   }
+
+  public async getById(id: string): Promise<TPokemon> {
+    return this.get<TPokemon>(`${ this.pathUrl }/${ id }`);
+  }
 }

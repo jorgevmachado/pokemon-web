@@ -42,9 +42,9 @@ const PokemonList = () => {
   const tags = useCallback((types: TPokemon['types'] ,discovered: boolean) => {
     if (!discovered) {
       const fallback: CardTagProps = {
-        key: 'not_discovered' ,
+        key: 'incomplete' ,
         tone: 'neutral' ,
-        name: 'NOT DISCOVERED' ,
+        name: 'INCOMPLETE' ,
       };
       return [fallback];
     }
@@ -135,8 +135,8 @@ const PokemonList = () => {
                   externalImage: pokemon.external_image,
                 } }
                 showInfo={ pokemon.status === 'COMPLETE' }
-                onClick={ pokemon.status !== 'COMPLETE' ? undefined : (item) => {
-                  router.push(`/pokemon/${ item.id }`);
+                onClick={(item) => {
+                  router.push(`/pokemon/${ item.name }`);
                 } }
               />
             )) }

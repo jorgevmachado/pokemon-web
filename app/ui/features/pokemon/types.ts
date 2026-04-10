@@ -15,21 +15,28 @@ export type TPokemonEvolution = {
 
 export type TPokemon = {
   id: string;
+  hp?: number;
   name?: string;
   order: number;
+  status: string;
+  speed?: number;
   types?: Array<TPokemonType>;
   image?: string;
   height?: number;
   weight?: number;
+  attack?: number;
+  defense?: number;
   habitat?: string;
   is_baby?: boolean;
-  status: string;
   abilities?: Array<TPokemonAbility>
   evolutions?: Array<TPokemonEvolution>;
   is_mythical?: boolean;
   capture_rate?: number;
   is_legendary?: boolean;
   external_image: string;
+  special_attack?: number;
+  special_defense?: number;
+  base_experience?: number;
 }
 
 export type PokemonFilters = {
@@ -60,4 +67,16 @@ export type UsePokemonListResult = {
   clearInputFilters: () => void;
   updateInputFilters: (inputFilters: FiltersProps['filters']) => void;
   reload: () => void;
+}
+
+export type PokemonViewDetailState = {
+  item?: TPokemon;
+  isLoading: boolean;
+  errorMessage: string | null;
+}
+
+export type UsePokemonDetailResult = {
+  item?: TPokemon;
+  isLoading: boolean;
+  errorMessage: string | null;
 }
