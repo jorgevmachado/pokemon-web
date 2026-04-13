@@ -11,7 +11,8 @@ import {
   MdOutlineVerified ,
 } from 'react-icons/md';
 
-import { Alert ,useModal } from '@/app/ui/components';
+import { Alert } from '@/app/ds';
+import { useModal } from '@/app/ds';
 import { useUser } from '@/app/ui/features/auth';
 
 import { HOME_COPY } from './constants';

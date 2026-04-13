@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { TPaginatedListResponse } from '@/app/ui/components/pagination/types';
+import { TPaginatedListResponse } from '@/app/ds/pagination/types';
 import { capturedPokemonsService } from '@/app/ui/features/my-pokemon';
 import { TMyPokemon } from '@/app/ui/features/my-pokemon/types';
 import { pokedexService } from '@/app/ui/features/pokedex';

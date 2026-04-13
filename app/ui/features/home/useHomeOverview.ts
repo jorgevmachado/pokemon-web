@@ -6,7 +6,7 @@ import { TPokedex } from '@/app/ui/features/pokedex/types';
 
 import { HOME_COPY } from './constants';
 import { HomeViewState, UseHomeOverviewResult } from './types';
-import { useLoading } from '@/app/ui';
+import { useLoading } from '@/app/ds';
 
 type ApiErrorResponse = {
   message?: string;

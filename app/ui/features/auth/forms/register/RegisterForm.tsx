@@ -4,8 +4,8 @@ import Link from 'next/link';
 import React, { useActionState, useEffect, useRef } from 'react';
 
 import { registerAction } from '@/app/actions/auth';
-import { useAlert } from '@/app/ui/components/alert';
-import { useLoading } from '@/app/ui/components/loading';
+import { useAlert } from '@/app/ds/alert';
+import { useLoading } from '@/app/ds/loading';
 
 import AuthField from '../field/AuthField';
 import AuthSubmitButton from '../button/AuthSubmitButton';

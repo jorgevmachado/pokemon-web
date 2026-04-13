@@ -4,7 +4,7 @@ import { getServerSession } from '@/app/shared/lib/auth/server';
 import { pokedexService } from '@/app/ui/features/pokedex/service';
 
 import { toPositiveInteger } from '@/app/utils/number';
-import { TPaginatedListResponse  } from '@/app/ui/components/pagination/types';
+import { TPaginatedListResponse  } from '@/app/ds/pagination/types';
 import { PokedexListQuery, TPokedex } from '@/app/ui/features/pokedex/types';
 
 const getSanitizedParam = (value: string | null): string | undefined => {

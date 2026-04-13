@@ -1,8 +1,12 @@
-'use client';
+import React  from 'react';
 
-import { createContext } from 'react';
+export type AlertType = 'info' | 'warning' | 'error' | 'success';
 
-import type { AlertType } from '@/app/ui';
+export type AlertProps = {
+  type?: AlertType;
+  children: React.ReactNode;
+  className?: string;
+};
 
 export type GlobalAlert = {
   id: string;
@@ -22,6 +26,3 @@ export type AlertContextValue = {
   dismissAlert: (id: string) => void;
   clearAlerts: () => void;
 };
-
-export const AlertContext = createContext<AlertContextValue | null>(null);
-

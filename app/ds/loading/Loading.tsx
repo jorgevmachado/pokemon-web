@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import Spinner from '@/app/ui/components/loading/spinner';
-import TopProgressBar from '@/app/ui/components/loading/top-progress-bar';
+import Spinner from '@/app/ds/loading/spinner';
+import TopProgressBar from '@/app/ds/loading/top-progress-bar';
 
 type TLoading = 'pokeball' | 'circle' | 'bar' | 'dots' | 'top-progress-bar';
 

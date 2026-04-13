@@ -2,10 +2,10 @@
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 
-import { Alert } from '@/app/ui/components/alert/index';
+import Alert from './Alert';
 
 import { AlertContext } from './AlertContext';
-import type { GlobalAlert, ShowAlertInput } from '@/app/ui';
+import type { GlobalAlert, ShowAlertInput } from './types';
 
 type AlertProviderProps = {
   children: React.ReactNode;

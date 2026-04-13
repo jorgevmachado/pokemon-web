@@ -1,6 +1,6 @@
 'use client';
 
-import { useLoading } from '@/app/ui';
+import { useLoading } from '@/app/ds';
 import { TPokemonType } from './types';
 import { useCallback ,useEffect ,useRef ,useState } from 'react';
 import {

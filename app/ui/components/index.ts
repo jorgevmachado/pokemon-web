@@ -1,5 +1,4 @@
-export * from './alert';
-export * from './bar-chart';
+export * from '../../ds/pagination';
 export { default as BattleSummary, type BattleSummaryProps } from './battle-summary';
 export * from './blank-card';
 export { default as Card, type CardOnClickParams,type CardProps, type CardTagProps } from './card';
@@ -10,8 +9,5 @@ export * from './evolution-chain';
 export * from './filters';
 export * from './info-card';
 export { default as ListPokemon } from './list-pokemon';
-export * from './loading';
-export { default as Modal, useModal } from './modal';
-export * from './pagination';
 export { default as StatsCard, type StatsCardProps } from './stats-card';
 export * from './types';

@@ -6,8 +6,8 @@ import { getServerSession } from '@/app/shared/lib/auth/server';
 import { UserProvider } from '@/app/ui/features/auth';
 import { getAuthenticatedUserBootstrap } from '@/app/ui/features/auth/user/server';
 import { NavigationFrame } from '@/app/ui/features/navigation';
-import { AlertProvider } from '@/app/ui/components/alert';
-import { LoadingProvider } from '@/app/ui/components/loading';
+import { AlertProvider } from '@/app/ds';
+import { LoadingProvider } from '@/app/ds/loading';
 
 import './globals.css';
 import { BreadcrumbProvider } from '@/app/ui/components/breadcrumb';

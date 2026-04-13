@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { TPaginatedListResponse, TPaginatedMeta } from '@/app/ui/components/pagination/types';
-import { useLoading } from '@/app/ui/components/loading';
+import { TPaginatedListResponse, TPaginatedMeta } from '@/app/ds/pagination/types';
+import { useLoading } from '@/app/ds/loading';
 
 import {
   PokemonFilters as PokemonFiltersProps ,
@@ -46,7 +46,7 @@ const INITIAL_STATE: PokemonViewState = {
   items: [],
   meta: INITIAL_PAGINATION,
   isLoading: true,
-  errorMessage: null,
+  errorMessage: undefined,
 };
 
 const GENERIC_FETCH_ERROR = 'Could not fetch Pokédex entries.';
@@ -87,7 +87,7 @@ const usePokemonList = (): UsePokemonListResult => {
     setState((previousState) => ({
       ...previousState,
       isLoading: true,
-      errorMessage: null,
+      errorMessage: undefined,
     }));
     startContentLoading();
 
@@ -125,7 +125,7 @@ const usePokemonList = (): UsePokemonListResult => {
           current_page: normalizedPage,
         },
         isLoading: false,
-        errorMessage: null,
+        errorMessage: undefined,
       });
     } catch (error) {
       if (requestIdRef.current !== requestId) {

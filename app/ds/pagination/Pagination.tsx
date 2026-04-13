@@ -3,18 +3,9 @@
 import Link from 'next/link';
 import React, { useMemo } from 'react';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
-
+import { PaginationProps } from './types';
 import { joinClass } from '@/app/utils';
 
-type PaginationProps = {
-  currentPage: number;
-  totalPages: number;
-  onPageChange?: (page: number) => void;
-  getPageHref?: (page: number) => string;
-  isLoading?: boolean;
-  className?: string;
-  ariaLabel?: string;
-};
 
 const MAX_VISIBLE_PAGES = 5;
 

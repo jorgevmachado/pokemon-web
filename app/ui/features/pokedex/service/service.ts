@@ -4,7 +4,7 @@ import {
   TPokedex ,
   WildPokemon,
 } from '@/app/ui/features/pokedex/types';
-import { TPaginatedListResponse  } from '@/app/ui/components/pagination/types';
+import { TPaginatedListResponse  } from '@/app/ds/pagination/types';
 import { omitUndefined } from '@/app/utils';
 
 export class PokedexService extends BaseServiceAbstract {

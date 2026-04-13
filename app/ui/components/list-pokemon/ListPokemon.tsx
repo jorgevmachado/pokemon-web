@@ -5,8 +5,10 @@ import {
   CardProps ,
   CardTagProps ,
   FiltersProps ,
-  Pagination ,
 } from '@/app/ui';
+import {
+  Pagination
+} from '@/app/ds';
 import Filters from '@/app/ui/components/filters/Filters';
 import Card from '@/app/ui/components/card';
 import {

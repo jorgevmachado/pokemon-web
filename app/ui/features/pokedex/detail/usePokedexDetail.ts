@@ -3,7 +3,7 @@ import {
   UsePokedexDetailResult ,
 } from '@/app/ui/features/pokedex/types';
 import { useCallback ,useEffect ,useRef ,useState } from 'react';
-import { useLoading } from '@/app/ui';
+import { useLoading } from '@/app/ds';
 import { useBreadcrumb } from '@/app/ui/components/breadcrumb';
 import { normalizedName } from '@/app/utils';
 
@@ -11,7 +11,7 @@ import { normalizedName } from '@/app/utils';
 const INITIAL_STATE: PokedexViewDetailState = {
   item: undefined,
   isLoading: true,
-  errorMessage: null,
+  errorMessage: undefined,
 };
 
 const GENERIC_FETCH_ERROR = 'Could not fetch Pokédex by id.';
@@ -30,7 +30,7 @@ const usePokedexDetail = (param: string): UsePokedexDetailResult => {
     setState((previousState) => ({
       ...previousState,
       isLoading: true,
-      errorMessage: null,
+      errorMessage: undefined,
     }));
     startContentLoading();
     try {
@@ -68,7 +68,7 @@ const usePokedexDetail = (param: string): UsePokedexDetailResult => {
       setState({
         item: json as TPokedex,
         isLoading: false,
-        errorMessage: null,
+        errorMessage: undefined,
       });
       
     } catch (error) {

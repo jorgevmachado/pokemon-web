@@ -2,7 +2,7 @@ import { TPokemon } from '@/app/ui/features/pokemon';
 import {
   TListQuery ,
   TPaginatedListResponse,
-} from '@/app/ui/components/pagination/types';
+} from '@/app/ds/pagination/types';
 import { FiltersProps } from '@/app/ui';
 
 export type PokedexViewState = {

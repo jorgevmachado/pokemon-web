@@ -36,7 +36,7 @@ export type MyPokemonViewState = {
   meta: TPaginatedListResponse<TMyPokemon>['meta']
   items: TPaginatedListResponse<TMyPokemon>['items']
   isLoading: boolean;
-  errorMessage: string | null;
+  errorMessage?: string;
 }
 
 export type MyPokemonFilters = {

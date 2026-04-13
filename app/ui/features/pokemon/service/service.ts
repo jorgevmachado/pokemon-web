@@ -1,5 +1,5 @@
 import { BaseServiceAbstract } from '@/app/shared';
-import { TPaginatedListResponse } from '@/app/ui/components/pagination/types';
+import { TPaginatedListResponse } from '@/app/ds/pagination/types';
 import { PokemonTypeService } from '@/app/ui/features/pokemon/type';
 import { PokemonListQuery ,TPokemon } from '@/app/ui/features/pokemon/types';
 import { omitUndefined } from '@/app/utils';

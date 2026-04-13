@@ -50,7 +50,7 @@ export type PokemonViewState = {
   items: TPaginatedListResponse<TPokemon>['items'];
   meta: TPaginatedListResponse<TPokemon>['meta'];
   isLoading: boolean;
-  errorMessage: string | null;
+  errorMessage?: string;
 }
 
 export type UsePokemonListResult = {

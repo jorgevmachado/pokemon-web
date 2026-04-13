@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
-import { useLoading } from '@/app/ui';
+import { useLoading } from './useLoading';
 
 /**
  * Invisible component placed inside LoadingProvider.

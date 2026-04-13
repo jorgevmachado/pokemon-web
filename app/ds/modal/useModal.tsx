@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import { ModalContextProps } from './types';
 import Modal from './Modal';

@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from '@/app/shared/lib/auth/server';
 
 import { toPositiveInteger } from '@/app/utils/number';
-import { TPaginatedListResponse } from '@/app/ui/components/pagination/types';
+import { TPaginatedListResponse } from '@/app/ds/pagination/types';
 import {
   MyPokemonListQuery ,
   TMyPokemon,
