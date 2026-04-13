@@ -10,9 +10,9 @@ import { useLoading } from '@/app/ds/loading';
 import AuthField from '../field/AuthField';
 import AuthSubmitButton from '../button/AuthSubmitButton';
 import { PASSWORD_PATTERN } from '../../constants';
-import { INITIAL_AUTH_ACTION_STATE } from '../../types';
 import { useRequiredFields } from '../useRequiredFields';
 import '../AuthForm.scss';
+import { INITIAL_AUTH_ACTION_STATE } from '@/app/shared';
 
 type LoginField = 'email' | 'password';
 type LoginValues = Record<LoginField, string>;

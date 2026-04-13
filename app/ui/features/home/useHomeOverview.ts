@@ -7,6 +7,7 @@ import { TPokedex } from '@/app/ui/features/pokedex/types';
 import { HOME_COPY } from './constants';
 import { HomeViewState, UseHomeOverviewResult } from './types';
 import { useLoading } from '@/app/ds';
+import { TTrainer } from '@/app/ui';
 
 type ApiErrorResponse = {
   message?: string;
@@ -60,6 +61,57 @@ const useHomeOverview = (): UseHomeOverviewResult => {
       });
 
       const json = (await response.json()) as TPokedex | ApiErrorResponse;
+
+      if (!response.ok || !isWildEncounter(json)) {
+        const message = readApiMessage(json, HOME_COPY.genericWildError);
+
+        setState((previousState) => ({
+          ...previousState,
+          isFindingWild: false,
+          errorMessage: message,
+        }));
+
+        return;
+      }
+
+      setState((previousState) => ({
+        ...previousState,
+        wildEncounter: json,
+        isFindingWild: false,
+        isEncounterOpen: true,
+      }));
+    } catch (error) {
+      const errorMessage = error instanceof Error && error.message
+        ? error.message
+        : HOME_COPY.genericWildError;
+
+      setState((previousState) => ({
+        ...previousState,
+        isFindingWild: false,
+        errorMessage,
+      }));
+    } finally {
+      stopContentLoading();
+    }
+  }, [startContentLoading, stopContentLoading]);
+
+  const initializeAdventure = useCallback(async (): Promise<void> => {
+    setState((previousState) => ({
+      ...previousState,
+      isFindingWild: true,
+      errorMessage: null,
+    }));
+    startContentLoading();
+    try {
+      const response = await fetch('/api/auth/initialize', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json; charset=UTF-8',
+        },
+        body: JSON.stringify({}),
+      });
+
+      const json = (await response.json()) as TTrainer | ApiErrorResponse;
 
       if (!response.ok || !isWildEncounter(json)) {
         const message = readApiMessage(json, HOME_COPY.genericWildError);

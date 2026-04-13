@@ -1,4 +1,5 @@
-import { TTrainer } from '@/app/ui/features/auth/types';
+import React from 'react';
+import type { TTrainer } from '../types';
 
 export type UserProviderProps = {
   children: React.ReactNode;

@@ -1,4 +1,3 @@
-export * from '../../ds/pagination';
 export { default as BattleSummary, type BattleSummaryProps } from './battle-summary';
 export * from './blank-card';
 export { default as Card, type CardOnClickParams,type CardProps, type CardTagProps } from './card';
@@ -6,7 +5,6 @@ export * from './card-badge';
 export * from './card-description';
 export { default as DetailPokemon } from './detail-pokemon';
 export * from './evolution-chain';
-export * from './filters';
 export * from './info-card';
 export { default as ListPokemon } from './list-pokemon';
 export { default as StatsCard, type StatsCardProps } from './stats-card';

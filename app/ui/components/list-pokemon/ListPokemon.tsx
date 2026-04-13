@@ -9,7 +9,7 @@ import {
 import {
   Pagination
 } from '@/app/ds';
-import Filters from '@/app/ui/components/filters/Filters';
+import Filters from '@/app/ds/filters/Filters';
 import Card from '@/app/ui/components/card';
 import {
   ListPokemonItem ,

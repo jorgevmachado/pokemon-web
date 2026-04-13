@@ -4,12 +4,17 @@ export {
   useAlert,
 } from './alert';
 export {
+  default as Autocomplete,
+  type AutocompleteOption,
+  type AutocompleteProps,
+} from './autocomplete';
+export {
   default as Badge,
   type BadgeProps,
   type BadgeShape,
   type BadgeSize,
   type BadgeTone,
-  type BadgeVariant
+  type BadgeVariant,
 } from './badge';
 export {
   default as BarChart,
@@ -25,6 +30,16 @@ export {
   type ButtonSize,
   type ButtonTone,
 } from './button';
+export {
+  default as Filters,
+  type FiltersProps,
+} from './filters';
+export {
+  default as Input,
+  type InputProps,
+  type InputSize,
+  type InputVariant,
+} from './input';
 export {
   default as Loading,
   LoadingProvider,

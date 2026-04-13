@@ -2,6 +2,7 @@ import React from 'react';
 
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
+import { LoadingProvider } from '@/app/ds';
 import type { TMyPokemon } from '@/app/ui/features/my-pokemon/types';
 import type { TPokedex } from '@/app/ui/features/pokedex/types';
 import type { TTrainer } from '@/app/ui/features/auth/types';
@@ -9,6 +10,7 @@ import { UserContext } from '@/app/ui/features/auth/user/UserContext';
 import type { UserContextValue } from '@/app/ui/features/auth/user/types';
 
 import HomeDashboard from './HomeDashboard';
+import { HOME_COPY } from './constants';
 
 const pushMock = jest.fn();
 
@@ -16,6 +18,7 @@ jest.mock('next/navigation', () => ({
   useRouter: () => ({
     push: pushMock,
   }),
+  usePathname: () => '/home',
 }));
 
 type MockedResponse = {
@@ -66,6 +69,7 @@ const createCapturedPokemon = (params: {
       id: `pk-${params.id}`,
       name: params.pokemonName,
       order: params.order,
+      status: 'ACTIVE',
       external_image: '/icon.svg',
     },
   };
@@ -109,6 +113,7 @@ const createPokedexEntry = (params: {
       id: `dex-${params.id}`,
       name: params.pokemonName,
       order: params.order,
+      status: 'ACTIVE',
       external_image: '/icon.svg',
     },
   };
@@ -201,9 +206,11 @@ const renderWithUser = (user: TTrainer | null) => {
   };
 
   return render(
-    <UserContext.Provider value={value}>
-      <HomeDashboard />
-    </UserContext.Provider>,
+    <LoadingProvider>
+      <UserContext.Provider value={ value }>
+        <HomeDashboard />
+      </UserContext.Provider>
+    </LoadingProvider>,
   );
 };
 
@@ -235,6 +242,23 @@ describe('<HomeDashboard />', () => {
     expect(screen.getByText('Charizard')).toBeInTheDocument();
     expect(screen.getByText('Blastoise')).toBeInTheDocument();
     expect(screen.getByText('Pikachu')).toBeInTheDocument();
+  });
+
+  it('shows initialize adventure card when trainer status is INCOMPLETE', () => {
+    const incompleteTrainer: TTrainer = {
+      ...trainer,
+      status: 'INCOMPLETE',
+    };
+
+    renderWithUser(incompleteTrainer);
+
+    expect(screen.getByText(HOME_COPY.incompleteAdventure.title)).toBeInTheDocument();
+    expect(screen.getByText(HOME_COPY.incompleteAdventure.description)).toBeInTheDocument();
+    expect(screen.queryByText('Top 3 Highest Level Pokemons')).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: HOME_COPY.incompleteAdventure.cta }));
+
+    expect(pushMock).toHaveBeenCalledWith('/pokemon');
   });
 
   it('opens and closes the wild encounter modal', async () => {

@@ -73,5 +73,10 @@ export const HOME_COPY = {
     fleeAction: 'Flee',
     battleAction: 'Battle',
   },
+  incompleteAdventure: {
+    title: 'Your Pokemon journey has not started yet',
+    description: 'Initialize your trainer adventure to unlock captures, battles, and progression across the region.',
+    cta: 'Initialize Pokemon Adventure',
+  },
   genericWildError: 'Could not find a wild Pokemon now. Try again in a moment.',
 };

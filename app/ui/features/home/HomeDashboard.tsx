@@ -1,56 +1,54 @@
 'use client';
 
-import React ,{ useMemo } from 'react';
+import React, { useMemo } from 'react';
+
 import { useRouter } from 'next/navigation';
 import {
-  MdCatchingPokemon ,
-  MdOutlineCalendarToday ,
-  MdOutlineEmail ,
-  MdOutlinePerson ,
-  MdOutlineSecurity ,
-  MdOutlineVerified ,
+  MdCatchingPokemon,
+  MdOutlineCalendarToday,
+  MdOutlineEmail,
+  MdOutlinePerson,
+  MdOutlineSecurity,
+  MdOutlineVerified,
 } from 'react-icons/md';
 
-import { Alert } from '@/app/ds';
-import { useModal } from '@/app/ds';
+import { Alert, Badge, Button } from '@/app/ds';
 import { useUser } from '@/app/ui/features/auth';
-
-import { HOME_COPY } from './constants';
-import useHomeOverview from './useHomeOverview';
-import { Badge } from '@/app/ds';
 import BlankCard from '@/app/ui/components/blank-card';
 import Card from '@/app/ui/components/card/Card';
 import { displayDate } from '@/app/utils/string/string';
-import { Button } from '@/app/ds';
+
+import { HOME_COPY } from './constants';
+import useHomeOverview from './useHomeOverview';
 
 const HomeDashboard = () => {
-  const { openModal ,modal ,closeModal } = useModal();
-
   const router = useRouter();
   const { user } = useUser();
   const {
-    wildEncounter ,
-    isFindingWild ,
-    isEncounterOpen ,
-    errorMessage ,
-    closeEncounter ,
-    findWildPokemon ,
+    wildEncounter,
+    isFindingWild,
+    isEncounterOpen,
+    errorMessage,
+    closeEncounter,
+    findWildPokemon,
   } = useHomeOverview();
 
-  const discoveredPokedexCount = useMemo(() => {
+  const discoveredPokedexCount = useMemo((): number => {
     if (!user || !user?.pokedex) {
       return 0;
     }
+
     return user.pokedex.filter((entry) => entry.discovered).length;
-  } ,[user]);
+  }, [user]);
 
   const topLevelPokemons = useMemo(() => {
     if (!user || !user.captured_pokemons) {
       return [];
     }
+
     return [...user.captured_pokemons].sort(
-      (left ,right) => right.level - left.level).slice(0 ,3);
-  } ,[user]);
+      (left, right) => right.level - left.level).slice(0, 3);
+  }, [user]);
 
   const capturedPokemonCount = user?.captured_pokemons?.length ?? 0;
 
@@ -67,32 +65,32 @@ const HomeDashboard = () => {
 
     return [
       {
-        label: HOME_COPY.metrics.captureRate ,
-        value: `${ user.capture_rate }%` ,
-      } ,
+        label: HOME_COPY.metrics.captureRate,
+        value: `${ user.capture_rate }%`,
+      },
       {
-        label: HOME_COPY.metrics.pokeballs ,
-        value: String(user.pokeballs) ,
-      } ,
+        label: HOME_COPY.metrics.pokeballs,
+        value: String(user.pokeballs),
+      },
       {
-        label: HOME_COPY.metrics.capturedPokemons ,
-        value: String(capturedPokemonCount) ,
-      } ,
+        label: HOME_COPY.metrics.capturedPokemons,
+        value: String(capturedPokemonCount),
+      },
       {
-        label: HOME_COPY.metrics.discoveredInPokedex ,
-        value: String(discoveredPokedexCount) ,
-      } ,
+        label: HOME_COPY.metrics.discoveredInPokedex,
+        value: String(discoveredPokedexCount),
+      },
       {
-        label: HOME_COPY.metrics.totalAuthentications ,
-        value: String(user.total_authentications) ,
-      } ,
+        label: HOME_COPY.metrics.totalAuthentications,
+        value: String(user.total_authentications),
+      },
       {
-        label: HOME_COPY.metrics.successRate ,
-        value: successRate ,
-        helper: `${ HOME_COPY.activity.success }: ${ user.authentication_success } / ${ HOME_COPY.activity.failures }: ${ user.authentication_failures }` ,
-      } ,
+        label: HOME_COPY.metrics.successRate,
+        value: successRate,
+        helper: `${ HOME_COPY.activity.success }: ${ user.authentication_success } / ${ HOME_COPY.activity.failures }: ${ user.authentication_failures }`,
+      },
     ];
-  } ,[capturedPokemonCount ,discoveredPokedexCount ,user]);
+  }, [capturedPokemonCount, discoveredPokedexCount, user]);
 
   if (!user) {
     return null;
@@ -109,66 +107,8 @@ const HomeDashboard = () => {
     router.push(`/battle?wildId=${ wildEncounter.id }`);
   };
 
-  const HandleOpenModal = () => {
-    const myPokemon = topLevelPokemons[0];
-    openModal({
-      title: 'Delete Account' ,
-      width: '5xl',
-      body: (
-        <Card
-          key={ myPokemon.id }
-          id={ myPokemon.id }
-          type="LIST"
-          tags={ myPokemon?.pokemon?.types?.map((type) => ({
-            key: type.id ,
-            name: type.name ,
-            style: {
-              color: type.text_color ,
-              backgroundColor: type.background_color ,
-            } ,
-          })) }
-          name={ myPokemon.pokemon.name }
-          order={ myPokemon.pokemon.order }
-          nickname={ myPokemon.nickname }
-          image={ {
-            image: myPokemon.pokemon.image ,
-            externalImage: myPokemon.pokemon.external_image ,
-            size: 'md' ,
-          } }
-          showInfo={ true }
-          onClick={ (item) => {
-            router.push(`/my-pokemon/${ item.id }`);
-          } }
-          stats={ {
-            hp: myPokemon.hp ,
-            maxHp: myPokemon.max_hp ,
-            attack: myPokemon.attack ,
-            defense: myPokemon.defense ,
-            withBorder: false ,
-            specialAttack: myPokemon.special_attack ,
-            specialDefense: myPokemon.special_defense ,
-            speed: myPokemon.speed ,
-          } }
-          battleSummary={ {
-            wins: myPokemon.wins ,
-            losses: myPokemon.losses ,
-            battles: myPokemon.battles ,
-            withBorder: false ,
-            className: 'pt-4',
-          } }
-        />
-      ) ,
-      closeOnEsc: true ,
-      closeOnOutsideClick: true ,
-      submitButton: {
-        label: 'Delete' ,
-        onClick: () => console.log('# => Delete Account') ,
-      } ,
-      closeButton: {
-        label: 'Cancel' ,
-        onClick: () => closeModal() ,
-      } ,
-    });
+  const handleInitializeAdventure = (): void => {
+    router.push('/pokemon');
   };
 
   return (
@@ -212,6 +152,7 @@ const HomeDashboard = () => {
 
         </div>
       </header>
+
       { isUsingFallbackData ? (
         <Alert type="warning">
           { HOME_COPY.fallbackNotice }
@@ -220,154 +161,185 @@ const HomeDashboard = () => {
 
       { errorMessage ? <Alert type="error">{ errorMessage }</Alert> : null }
 
-      <div
-        className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-        aria-label="trainer-metrics">
-        { metrics.map((metric) => (
-          <BlankCard
-            key={ metric.label }
-            label={ metric.label }
-            title={ metric.value }
-            helper={ metric.helper }
-          />
-        )) }
-      </div>
-
-      <div className="grid gap-4 lg:grid-cols-2">
-        <BlankCard
-          title={ {
-            text: HOME_COPY.profile.title ,
-            font: 'semibold' ,
-            size: 'lg' ,
-          } }
-          shadow="sm"
-          list={ [
-            {
-              label: HOME_COPY.profile.id ,
-              value: user.id ,
-            } ,
-            {
-              label: HOME_COPY.profile.role ,
-              value: user.role ,
-            } ,
-            {
-              label: HOME_COPY.profile.gender ,
-              value: user.gender ,
-            } ,
-            {
-              label: HOME_COPY.profile.email ,
-              value: user.email ,
-            } ,
-            {
-              label: HOME_COPY.profile.dateOfBirth ,
-              value: displayDate(String(user.date_of_birth)) ,
-            } ,
-          ] }
-        />
-        <BlankCard
-          title={ {
-            text: HOME_COPY.activity.title ,
-            font: 'semibold' ,
-            size: 'lg' ,
-          } }
-          shadow="sm"
-          list={ [
-            {
-              label: HOME_COPY.activity.success ,
-              value: String(user.authentication_success) ,
-            } ,
-            {
-              label: HOME_COPY.activity.failures ,
-              value: String(user.authentication_failures) ,
-            } ,
-            {
-              label: HOME_COPY.activity.lastLogin ,
-              value: displayDate(String(user.last_authentication_at)) ,
-            } ,
-            {
-              label: HOME_COPY.activity.createdAt ,
-              value: displayDate(String(user.created_at)) ,
-            } ,
-            {
-              label: HOME_COPY.activity.updatedAt ,
-              value: displayDate(String(user.updated_at)) ,
-            } ,
-          ] }
-        />
-      </div>
-
-      <article
-        className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h3 className="text-lg font-semibold text-slate-900">
-          { HOME_COPY.topTeam.title }
-        </h3>
-
-        { topLevelPokemons.length === 0 ? (
-          <p
-            className="mt-3 text-sm text-slate-600">
-            { HOME_COPY.topTeam.empty }
+      { user.status === 'INCOMPLETE' ? (
+        <article className="rounded-2xl border border-amber-200 bg-amber-50/70 p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-slate-900">
+            { HOME_COPY.incompleteAdventure.title }
+          </h3>
+          <p className="mt-2 max-w-2xl text-sm text-slate-600 sm:text-base">
+            { HOME_COPY.incompleteAdventure.description }
           </p>
-        ) : (
-          <div className="mt-4 grid gap-3 md:grid-cols-3">
-            { topLevelPokemons.map((myPokemon) => (
-              <Card
-                key={ myPokemon.id }
-                id={ myPokemon.id }
-                tags={ myPokemon?.pokemon?.types?.map((type) => ({
-                  key: type.id ,
-                  name: type.name ,
-                  style: {
-                    color: type.text_color ,
-                    backgroundColor: type.background_color ,
-                  } ,
-                })) }
-                name={ myPokemon.pokemon.name }
-                order={ myPokemon.pokemon.order }
-                nickname={ myPokemon.nickname }
-                image={ {
-                  image: myPokemon.pokemon.image ,
-                  externalImage: myPokemon.pokemon.external_image ,
-                } }
-                showInfo={ true }
-                onClick={ (item) => {
-                  router.push(`/my-pokemon/${ item.id }`);
-                } }
+          <div className="mt-5">
+            <Button
+              tone="danger"
+              iconLeft={ <MdCatchingPokemon size={ 20 } aria-hidden="true"/> }
+              onClick={ handleInitializeAdventure }
+            >
+              { HOME_COPY.incompleteAdventure.cta }
+            </Button>
+          </div>
+        </article>
+      ) : (
+        <>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="trainer-metrics">
+            { metrics.map((metric) => (
+              <BlankCard
+                key={ metric.label }
+                label={ metric.label }
+                title={ metric.value }
+                helper={ metric.helper }
               />
             )) }
           </div>
-        ) }
-      </article>
 
-      <article
-        className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div
-          className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h3
-              className="inline-flex items-center gap-2 text-lg font-semibold text-slate-900"
-            >
-              <MdOutlineSecurity aria-hidden="true"/>
-              { HOME_COPY.encounter.title }
-            </h3>
-            <p className="mt-1 text-sm text-slate-600">
-              { HOME_COPY.encounter.description }
-            </p>
+          <div className="grid gap-4 lg:grid-cols-2">
+            <BlankCard
+              title={ {
+                text: HOME_COPY.profile.title ,
+                font: 'semibold' ,
+                size: 'lg' ,
+              } }
+              shadow="sm"
+              list={ [
+                {
+                  label: HOME_COPY.profile.id ,
+                  value: user.id ,
+                } ,
+                {
+                  label: HOME_COPY.profile.role ,
+                  value: user.role ,
+                } ,
+                {
+                  label: HOME_COPY.profile.gender ,
+                  value: user.gender ,
+                } ,
+                {
+                  label: HOME_COPY.profile.email ,
+                  value: user.email ,
+                } ,
+                {
+                  label: HOME_COPY.profile.dateOfBirth ,
+                  value: displayDate(String(user.date_of_birth)) ,
+                } ,
+              ] }
+            />
+            <BlankCard
+              title={ {
+                text: HOME_COPY.activity.title ,
+                font: 'semibold' ,
+                size: 'lg' ,
+              } }
+              shadow="sm"
+              list={ [
+                {
+                  label: HOME_COPY.activity.success ,
+                  value: String(user.authentication_success) ,
+                } ,
+                {
+                  label: HOME_COPY.activity.failures ,
+                  value: String(user.authentication_failures) ,
+                } ,
+                {
+                  label: HOME_COPY.activity.lastLogin ,
+                  value: displayDate(String(user.last_authentication_at)) ,
+                } ,
+                {
+                  label: HOME_COPY.activity.createdAt ,
+                  value: displayDate(String(user.created_at)) ,
+                } ,
+                {
+                  label: HOME_COPY.activity.updatedAt ,
+                  value: displayDate(String(user.updated_at)) ,
+                } ,
+              ] }
+            />
           </div>
-          <button
-            type="button"
-            onClick={ () => {
-              void findWildPokemon();
-            } }
-            disabled={ isFindingWild }
-            className="inline-flex items-center justify-center rounded-xl bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            <MdCatchingPokemon className="mr-2" size={ 20 } aria-hidden="true"/>
-            { isFindingWild ?
-              HOME_COPY.encounter.ctaLoading :
-              HOME_COPY.encounter.cta }
-          </button>
-        </div>
-      </article>
+
+          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <h3 className="text-lg font-semibold text-slate-900">
+              { HOME_COPY.topTeam.title }
+            </h3>
+
+            { topLevelPokemons.length === 0 ? (
+              <p
+                className="mt-3 text-sm text-slate-600">
+                { HOME_COPY.topTeam.empty }
+              </p>
+            ) : (
+              <div className="mt-4 grid gap-3 md:grid-cols-3">
+                { topLevelPokemons.map((myPokemon) => (
+                  <Card
+                    key={ myPokemon.id }
+                    id={ myPokemon.id }
+                    tags={ myPokemon?.pokemon?.types?.map((type) => ({
+                      key: type.id ,
+                      name: type.name ,
+                      style: {
+                        color: type.text_color ,
+                        backgroundColor: type.background_color ,
+                      } ,
+                    })) }
+                    name={ myPokemon.pokemon.name }
+                    order={ myPokemon.pokemon.order }
+                    nickname={ myPokemon.nickname }
+                    image={ {
+                      image: myPokemon.pokemon.image ,
+                      externalImage: myPokemon.pokemon.external_image ,
+                    } }
+                    showInfo={ true }
+                    onClick={ (item) => {
+                      router.push(`/my-pokemon/${ item.id }`);
+                    } }
+                  />
+                )) }
+              </div>
+            ) }
+          </article>
+
+          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div
+              className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h3
+                  className="inline-flex items-center gap-2 text-lg font-semibold text-slate-900"
+                >
+                  <MdOutlineSecurity aria-hidden="true"/>
+                  { HOME_COPY.encounter.title }
+                </h3>
+                <p className="mt-1 text-sm text-slate-600">
+                  { HOME_COPY.encounter.description }
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={ () => {
+                  void findWildPokemon();
+                } }
+                disabled={ isFindingWild }
+                className="inline-flex items-center justify-center rounded-xl bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <MdCatchingPokemon className="mr-2" size={ 20 } aria-hidden="true"/>
+                { isFindingWild ?
+                  HOME_COPY.encounter.ctaLoading :
+                  HOME_COPY.encounter.cta }
+              </button>
+            </div>
+          </article>
+
+          <p className="inline-flex items-center gap-2 text-xs text-slate-500">
+            <MdOutlineCalendarToday aria-hidden="true"/>
+            { `Last update: ${ displayDate(String(user.updated_at)) }` }
+          </p>
+        </>
+      ) }
+
+
+
+
+
+
+
+
 
       { isEncounterOpen && wildEncounter ? (
         <div
@@ -435,21 +407,6 @@ const HomeDashboard = () => {
         </div>
       ) : null }
 
-      <p className="inline-flex items-center gap-2 text-xs text-slate-500">
-        <MdOutlineCalendarToday aria-hidden="true"/>
-        { `Last update: ${ displayDate(String(user.updated_at)) }` }
-      </p>
-
-      { modal }
-      <button onClick={ () => {
-        HandleOpenModal();
-      } }>Open Modal
-      </button>
-
-      <Button
-        tone="success"
-        iconLeft={<MdCatchingPokemon size={ 20 } aria-hidden="true"/>}
-      >FUCK</Button>
 
     </section>
   );

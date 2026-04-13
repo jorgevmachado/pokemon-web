@@ -1,10 +1,6 @@
 import { TPokedex } from '@/app/ui/features/pokedex/types';
 import { TMyPokemon } from '@/app/ui/features/my-pokemon';
 
-export type { AuthActionState } from '@/app/shared/lib/auth/action-state';
-export { INITIAL_AUTH_ACTION_STATE } from '@/app/shared/lib/auth/action-state';
-
-
 export type SignInParams = {
  email: string;
  password: string;
@@ -42,4 +38,10 @@ export type SignUpParams = {
   gender: string;
   password: string;
   date_of_birth: string;
+}
+
+export type InitializeParams = {
+  pokeballs?: number;
+  capture_rate?: number;
+  pokemon_name?: string;
 }

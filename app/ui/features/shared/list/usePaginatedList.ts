@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useLoading } from '@/app/ds';
 import type { TPaginatedListResponse, TPaginatedMeta } from '@/app/ds/pagination/types';
-import type { FiltersProps } from '@/app/ui/components/filters/types';
+import type { FiltersProps } from '@/app/ds/filters/types';
 
 const INITIAL_PAGINATION: TPaginatedMeta = {
   total: 0,
