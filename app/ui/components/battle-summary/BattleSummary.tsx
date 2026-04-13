@@ -4,10 +4,10 @@ import { joinClass } from '@/app/utils';
 
 
 const BattleSummary = ({
-  wins ,
+  wins = 0,
   title,
-  losses ,
-  battles ,
+  losses = 0 ,
+  battles = 0,
   withBorder = true,
   className,
 }: BattleSummaryProps) => {

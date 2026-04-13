@@ -57,7 +57,7 @@ export type UsePokemonListResult = {
   items: TPaginatedListResponse<TPokemon>['items'];
   meta: TPaginatedListResponse<TPokemon>['meta'];
   isLoading: boolean;
-  errorMessage: string | null;
+  errorMessage?: string;
   filters: PokemonFilters;
   inputFilters: FiltersProps['filters'];
   goToPage: (page: number) => void;
@@ -72,11 +72,11 @@ export type UsePokemonListResult = {
 export type PokemonViewDetailState = {
   item?: TPokemon;
   isLoading: boolean;
-  errorMessage: string | null;
+  errorMessage?: string;
 }
 
 export type UsePokemonDetailResult = {
   item?: TPokemon;
   isLoading: boolean;
-  errorMessage: string | null;
+  errorMessage?: string;
 }

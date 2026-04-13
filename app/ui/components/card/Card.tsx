@@ -1,36 +1,9 @@
 import React ,{ useMemo } from 'react';
-import CardImage ,{ CardImageProps } from '@/app/ui/components/card/image';
+import CardImage from '@/app/ui/components/card/image';
 import { formatNumberPrefix ,joinClass } from '@/app/utils';
-import CardTag ,{ CardTagProps } from '@/app/ui/components/card/tag';
-import {
-  BattleSummary ,
-  BattleSummaryProps ,
-  StatsCard ,
-  StatsCardProps ,
-} from '@/app/ui';
-
-type CardImage = Omit<CardImageProps ,'displayName' | 'showImage'>;
-
-type CardOnClickParams = {
-  id: string;
-  name: string;
-  order: number;
-  nickname?: string;
-}
-
-type CardProps = {
-  id: string;
-  type?: 'DETAIL' | 'LIST';
-  tags?: Array<CardTagProps>;
-  name?: string;
-  order: number;
-  image: CardImage;
-  nickname?: string;
-  showInfo?: boolean;
-  onClick?: (item: CardOnClickParams) => void;
-  stats?: StatsCardProps;
-  battleSummary?: BattleSummaryProps;
-};
+import CardTag from '@/app/ui/components/card/tag';
+import { BattleSummary ,StatsCard  } from '@/app/ui';
+import { CardProps } from '@/app/ui/components/card/types';
 
 const Card = ({
   id ,
@@ -65,7 +38,7 @@ const Card = ({
   const headerClassName = useMemo(() => {
     const classNames = [
       'flex' ,
-      'space-y-1',
+      'space-y-1' ,
     ];
     if (type === 'LIST') {
       classNames.push('flex-col');
@@ -95,7 +68,7 @@ const Card = ({
           'hover:-translate-y-1' ,
           'hover:border-blue-200' ,
           'hover:shadow-[0_24px_60px_-30px_rgba(37,99,235,0.28)]' ,
-          onClick && 'cursor-pointer',
+          onClick && 'cursor-pointer' ,
         ])
       }
     >

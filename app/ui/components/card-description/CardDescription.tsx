@@ -16,13 +16,44 @@ const CardDescription = ({
   maxHp ,
   nickname ,
 }: CardDescriptionProps) => {
-  
+
   const hpLabel = useMemo(() => {
     if (hp && maxHp) {
       return `${hp} / ${maxHp}`;
     }
     return hp;
   }, [hp, maxHp]);
+  
+  const levelDescription = useMemo(() => {
+    const result = {
+      label: 'Level' ,
+      value: 0,
+      hasValue: false ,
+    };
+    
+    if (level !== undefined) {
+      result.value = level;
+      result.hasValue = true;
+    }
+    return result;
+  }, [level]);
+
+  const hpDescription = useMemo(() => {
+    const result = {
+      label: 'CURRENT HP' ,
+      value: 0,
+      hasValue: false ,
+      maxValue: maxHp ? 100 : undefined ,
+      valueLabel: hpLabel ,
+      compareValue: maxHp ,
+    };
+
+    if (hp !== undefined) {
+      result.value = hp;
+      result.hasValue = true;
+    }
+    return result;
+  }, [hp, hpLabel, maxHp]);
   
   return (
     <article
@@ -38,20 +69,20 @@ const CardDescription = ({
           { nickname }
         </div>
       ) }
-      { level && (
+
+      { levelDescription.hasValue && (
         <div
           className="mt-4 flex items-center gap-3  border-slate-100 pt-4 text-slate-600">
           <span
             className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                Level
+            {levelDescription.label}
           </span>
-          { level }
+          {levelDescription.value}
         </div>
       )}
       
       <div
-        className={ `mt-4 flex items-center gap-3 border-slate-100 pt-4 text-slate-600 ${ nickname !==
-        name ? 'border-t' : '' }` }>
+        className={ `mt-4 flex items-center gap-3 border-slate-100 pt-4 text-slate-600 ${ nickname !== name ? 'border-t' : '' }` }>
         <span
           className="text-xs font-semibold uppercase tracking-wide text-slate-400">
           Gender
@@ -59,20 +90,21 @@ const CardDescription = ({
         <MdMale size={ 22 } aria-label="Male"/>
         <MdFemale size={ 22 } aria-label="Female"/>
       </div>
-      { hp && (
+
+      { hpDescription.hasValue && (
         <>
           <div className="mt-4 flex items-center gap-3 border-t border-slate-100 pt-4 text-slate-600">
             <span
               className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                CURRENT HP
+              { hpDescription.label }
             </span>
-            { hpLabel }
+            { hpDescription.valueLabel }
           </div>
           <BarChart
-            value={ hp }
+            value={ hpDescription.value }
             showValue={ false }
-            compareValue={ maxHp }
-            maxValue={ maxHp ? 100 : undefined }
+            compareValue={ hpDescription.compareValue }
+            maxValue={ hpDescription.maxValue }
             tone="auto"
             size="md"
             className="col-span-2 px-5 py-3"

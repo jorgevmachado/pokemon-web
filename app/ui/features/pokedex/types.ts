@@ -9,14 +9,14 @@ export type PokedexViewState = {
   items: TPaginatedListResponse<TPokedex>['items'];
   meta: TPaginatedListResponse<TPokedex>['meta']
   isLoading: boolean;
-  errorMessage: string | null;
+  errorMessage?: string;
 };
 
 export type UsePokedexListResult = {
   items: TPaginatedListResponse<TPokedex>['items'];
   meta: TPaginatedListResponse<TPokedex>['meta']
   isLoading: boolean;
-  errorMessage: string | null;
+  errorMessage?: string;
   filters: PokedexFilters;
   inputFilters: FiltersProps['filters'];
   goToPage: (page: number) => void;
@@ -31,13 +31,13 @@ export type UsePokedexListResult = {
 export type UsePokedexDetailResult = {
   item?: TPokedex;
   isLoading: boolean;
-  errorMessage: string | null;
+  errorMessage?: string;
 };
 
 export type PokedexViewDetailState = {
   item?: TPokedex;
   isLoading: boolean;
-  errorMessage: string | null;
+  errorMessage?: string;
 }
 
 export type PokedexFilters = {

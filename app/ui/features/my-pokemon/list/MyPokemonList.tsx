@@ -1,16 +1,9 @@
 'use client';
 
-import React ,{ useCallback ,useMemo } from 'react';
-import { MdCatchingPokemon } from 'react-icons/md';
-import { useRouter } from 'next/navigation';
+import React from 'react';
 
-import { FiltersProps ,InfoCard ,Pagination } from '@/app/ui/components';
-
-import type { MyPokemonFilters as MyPokemonFiltersProps ,TMyPokemon } from '../types';
+import { ListPokemon } from '@/app/ui/components';
 import useMyPokemonList from './useMyPokemonList';
-import { TPokemon ,usePokemonTypeList } from '../../pokemon';
-import Card from '@/app/ui/components/card';
-import Filters from '@/app/ui/components/filters';
 
 const MyPokemonList = () => {
   const {
@@ -23,127 +16,29 @@ const MyPokemonList = () => {
     applyInputFilters ,
     clearInputFilters ,
   } = useMyPokemonList();
-  const router = useRouter();
-  const { list ,isLoading: isLoadingTypes } = usePokemonTypeList();
-
-  const pageSummary = useMemo(() => {
-    const currentStart = meta.offset + 1;
-    const currentEnd = Math.min(meta.offset + meta.limit ,meta.total);
-
-    if (meta.total === 0) {
-      return '0 Pokémon';
-    }
-
-    return `${ currentStart }-${ currentEnd } of ${ meta.total } Pokémon`;
-  } ,[meta.limit ,meta.offset ,meta.total]);
-
-  const tags = useCallback((types: TPokemon['types']) => {
-    if (types && types.length > 0) {
-      return types.map((type) => ({
-        key: type.id ,
-        name: type.name ,
-        style: {
-          color: type.text_color ,
-          backgroundColor: type.background_color ,
-        } ,
-      }));
-    }
-    return [];
-  } ,[]);
-
-  const handleBuildFilters = useCallback((filters: FiltersProps['filters']) => {
-    return filters.map((filter) => {
-      if (filter.type !== 'autocomplete') {
-        return filter;
-      }
-      return {
-        ...filter ,
-        options: list.map((type) => ({
-          key: type.id ,
-          value: type.name,
-        })) ,
-        isLoading: isLoadingTypes ,
-      };
-    });
-  } ,[isLoadingTypes ,list]);
 
   return (
-    <section className="mx-auto w-full max-w-6xl space-y-6"
-      aria-label="pokedex-list">
-      <Filters
-        ariaLabel="Pokedex Filters"
-        filters={ handleBuildFilters(inputFilters) }
-        onApply={ (item) => applyInputFilters(item as MyPokemonFiltersProps) }
-        onClear={ clearInputFilters }
-      />
-
-      { !errorMessage && isLoading && items.length === 0 ? (
-        <div
-          className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          { Array.from({ length: 8 } ,(_ ,index) => (
-            <div
-              key={ `pokedex-skeleton-${ index }` }
-              className="h-84 animate-pulse rounded-[1.75rem] border border-slate-200/80 bg-white/80"
-            />
-          )) }
-        </div>
-      ) : null }
-
-      { !errorMessage && !isLoading && items.length === 0 ? (
-        <InfoCard
-          icon={ <MdCatchingPokemon size={ 22 }/> }
-          variant="yellow"
-          title="No Detail Found"
-          description="The My Pokemon is currently empty. Try again later."
-        />
-      ) : null }
-
-      { items.length > 0 ? (
-        <>
-          <div className="flex items-center justify-between gap-3">
-            <p
-              className="text-sm font-medium text-slate-500">{ pageSummary }</p>
-            { isLoading ? (
-              <p
-                className="text-xs font-semibold uppercase tracking-wide text-blue-600">
-                Updating...
-              </p>
-            ) : null }
-          </div>
-
-          <div
-            className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            { items.map((pokedex: TMyPokemon) => (
-              <Card
-                key={ pokedex.id }
-                id={ pokedex.id }
-                tags={ tags(pokedex.pokemon.types) }
-                name={ pokedex.pokemon.name }
-                order={ pokedex.pokemon.order }
-                nickname={ pokedex.nickname }
-                image={ {
-                  image: pokedex.pokemon.image ,
-                  externalImage: pokedex.pokemon.external_image,
-                } }
-                showInfo={ true }
-                onClick={(item) => {
-                  router.push(`/my-pokemon/${ item.id }`);
-                } }
-              />
-            )) }
-          </div>
-
-          <Pagination
-            className="pt-1"
-            currentPage={ meta.current_page }
-            totalPages={ meta.total_pages }
-            isLoading={ isLoading }
-            onPageChange={ goToPage }
-            ariaLabel="Pokédex pagination"
-          />
-        </>
-      ) : null }
-    </section>
+    <ListPokemon
+      meta={ meta }
+      items={ items.map((item) => ({
+        id: item.id ,
+        name: item.pokemon.name ,
+        types: item.pokemon.types ,
+        order: item.pokemon.order ,
+        image: item.pokemon.image ,
+        showInfo: true ,
+        nickname: item.nickname ,
+        externalImage: item.pokemon.external_image ,
+      })) }
+      filters={ inputFilters }
+      pageName="My Pokémon"
+      pageRoute="/my-pokemon"
+      goToPage={ goToPage }
+      isLoading={ isLoading }
+      errorMessage={ errorMessage }
+      clearFilters={ clearInputFilters }
+      applyFilters={ applyInputFilters }
+    />
   );
 };
 

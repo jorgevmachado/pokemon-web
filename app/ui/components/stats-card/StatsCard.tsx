@@ -7,15 +7,15 @@ import { BarChart } from '@/app/ds';
 import { joinClass } from '@/app/utils';
 
 const StatsCard = ({
-  hp ,
-  speed ,
+  hp = 0,
+  speed = 0 ,
   maxHp ,
   title,
-  attack ,
-  defense ,
+  attack = 0 ,
+  defense = 0 ,
   withBorder = true,
-  specialAttack ,
-  specialDefense ,
+  specialAttack = 0,
+  specialDefense = 0 ,
 }: StatsCardProps) => {
   const statEntries: Array<TStatEntry> = useMemo(() => {
     return [

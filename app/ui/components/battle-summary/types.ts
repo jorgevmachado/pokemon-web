@@ -1,8 +1,8 @@
 export type BattleSummaryProps = {
-  wins: number;
+  wins?: number;
   title?: string;
-  losses: number;
-  battles: number;
+  losses?: number;
+  battles?: number;
   className?: string;
   withBorder?: boolean;
 }
