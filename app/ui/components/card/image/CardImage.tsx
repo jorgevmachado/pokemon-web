@@ -1,3 +1,4 @@
+'use client';
 import React, { useMemo, useState } from 'react';
 import Image from 'next/image';
 import { CardImageProps } from '@/app/ui/components/card/image/types';

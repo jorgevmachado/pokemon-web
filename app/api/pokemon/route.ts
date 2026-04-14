@@ -4,7 +4,10 @@ import { getServerSession } from '@/app/shared/lib/auth/server';
 import { pokemonService } from '@/app/ui/features/pokemon/service';
 
 import { toPositiveInteger } from '@/app/utils/number';
-import { TPaginatedListResponse } from '@/app/ds/pagination/types';
+import {
+  ApiErrorResponse ,
+  TPaginatedListResponse,
+} from '@/app/ds';
 import { PokemonListQuery ,TPokemon } from '@/app/ui/features/pokemon/types';
 
 const getSanitizedParam = (value: string | null): string | undefined => {
@@ -17,9 +20,7 @@ const getSanitizedParam = (value: string | null): string | undefined => {
   return trimmedValue || undefined;
 };
 
-export async function GET(request: Request): Promise<NextResponse<TPaginatedListResponse<TPokemon> | {
-  message: string
-}>> {
+export async function GET(request: Request): Promise<NextResponse<TPaginatedListResponse<TPokemon> | ApiErrorResponse>> {
   const { searchParams } = new URL(request.url);
 
   const session = await getServerSession();
@@ -29,15 +30,21 @@ export async function GET(request: Request): Promise<NextResponse<TPaginatedList
   }
 
   try {
-    const page = toPositiveInteger(searchParams.get('page') ,1);
-    const limit = toPositiveInteger(searchParams.get('limit') ,12);
+    const searchParamsPage = searchParams.get('page');
+    const searchParamsLimit = searchParams.get('limit');
+    const page = !searchParamsPage ? undefined : toPositiveInteger(searchParamsPage ,1);
+    const limit = !searchParamsLimit ? undefined : toPositiveInteger(searchParamsLimit ,12);
     const name = getSanitizedParam(searchParams.get('name'));
     const order = getSanitizedParam(searchParams.get('order'));
+    const order_by = getSanitizedParam(searchParams.get('order_by'));
+    const status = getSanitizedParam(searchParams.get('status'));
     const listQuery: PokemonListQuery = {
       limit ,
       page ,
       name ,
       order ,
+      status ,
+      order_by,
     };
     const service = pokemonService(session.token);
     const response = await service.list(

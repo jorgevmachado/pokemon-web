@@ -1,12 +1,13 @@
+'use client';
 import { useRouter } from 'next/navigation';
 import { TPokemon ,usePokemonTypeList } from '@/app/ui/features/pokemon';
 import React ,{ useCallback } from 'react';
 import {
   CardProps ,
   CardTagProps ,
-  FiltersProps ,
 } from '@/app/ui';
 import {
+  FiltersProps,
   Pagination
 } from '@/app/ds';
 import Filters from '@/app/ds/filters/Filters';

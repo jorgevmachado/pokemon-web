@@ -31,7 +31,7 @@ type UsePaginatedListParams<TFilters> = {
   initialInputFilters: FiltersProps['filters'];
   fetchErrorMessage: string;
   normalizeFilters: (nextFilters: TFilters) => TFilters;
-  buildQueryString?: (page: number, filters: TFilters) => string;
+  buildQueryString?: (page: number, limit: number, filters: TFilters) => string;
 };
 
 type UsePaginatedListResult<TItem, TFilters> = {
@@ -61,9 +61,10 @@ const clampPage = (page: number, totalPages: number): number => {
   return Math.min(Math.max(page, 1), Math.max(totalPages, 1));
 };
 
-const defaultBuildQueryString = <TFilters,>(page: number, filters: TFilters): string => {
+const defaultBuildQueryString = <TFilters,>(page: number, limit: number, filters: TFilters): string => {
   const params = new URLSearchParams({
     page: String(page),
+    limit: String(limit),
   });
 
   Object.entries(filters as ListFilterValueMap).forEach(([key, value]) => {
@@ -91,7 +92,7 @@ const usePaginatedList = <TItem, TFilters>({
   const requestIdRef = useRef(0);
   const { startContentLoading, stopContentLoading } = useLoading();
 
-  const fetchPage = useCallback(async (page: number, activeFilters: TFilters): Promise<void> => {
+  const fetchPage = useCallback(async (page: number, activeFilters: TFilters, per_page: number = 12): Promise<void> => {
     const requestId = requestIdRef.current + 1;
     requestIdRef.current = requestId;
 
@@ -103,7 +104,7 @@ const usePaginatedList = <TItem, TFilters>({
     startContentLoading();
 
     try {
-      const queryString = buildQueryString(page, activeFilters);
+      const queryString = buildQueryString(page, per_page, activeFilters);
       const response = await fetch(`${endpoint}?${queryString}`, {
         method: 'GET',
         cache: 'no-store',

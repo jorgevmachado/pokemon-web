@@ -1,18 +1,18 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React ,{ useMemo } from 'react';
 
 import { useRouter } from 'next/navigation';
 import {
-  MdCatchingPokemon,
-  MdOutlineCalendarToday,
-  MdOutlineEmail,
-  MdOutlinePerson,
-  MdOutlineSecurity,
-  MdOutlineVerified,
+  MdCatchingPokemon ,
+  MdOutlineCalendarToday ,
+  MdOutlineEmail ,
+  MdOutlinePerson ,
+  MdOutlineSecurity ,
+  MdOutlineVerified ,
 } from 'react-icons/md';
 
-import { Alert, Badge, Button } from '@/app/ds';
+import { Alert ,Badge } from '@/app/ds';
 import { useUser } from '@/app/ui/features/auth';
 import BlankCard from '@/app/ui/components/blank-card';
 import Card from '@/app/ui/components/card/Card';
@@ -20,17 +20,20 @@ import { displayDate } from '@/app/utils/string/string';
 
 import { HOME_COPY } from './constants';
 import useHomeOverview from './useHomeOverview';
+import InitializeAdventure from '@/app/ui/features/home/initialize-adventure';
 
 const HomeDashboard = () => {
   const router = useRouter();
   const { user } = useUser();
   const {
-    wildEncounter,
-    isFindingWild,
-    isEncounterOpen,
-    errorMessage,
-    closeEncounter,
-    findWildPokemon,
+    wildEncounter ,
+    isFindingWild ,
+    isEncounterOpen ,
+    errorMessage ,
+    closeEncounter ,
+    fetchPokemons ,
+    findWildPokemon ,
+    initializeAdventure ,
   } = useHomeOverview();
 
   const discoveredPokedexCount = useMemo((): number => {
@@ -39,7 +42,7 @@ const HomeDashboard = () => {
     }
 
     return user.pokedex.filter((entry) => entry.discovered).length;
-  }, [user]);
+  } ,[user]);
 
   const topLevelPokemons = useMemo(() => {
     if (!user || !user.captured_pokemons) {
@@ -47,8 +50,8 @@ const HomeDashboard = () => {
     }
 
     return [...user.captured_pokemons].sort(
-      (left, right) => right.level - left.level).slice(0, 3);
-  }, [user]);
+      (left ,right) => right.level - left.level).slice(0 ,3);
+  } ,[user]);
 
   const capturedPokemonCount = user?.captured_pokemons?.length ?? 0;
 
@@ -65,32 +68,32 @@ const HomeDashboard = () => {
 
     return [
       {
-        label: HOME_COPY.metrics.captureRate,
-        value: `${ user.capture_rate }%`,
-      },
+        label: HOME_COPY.metrics.captureRate ,
+        value: `${ user.capture_rate }%` ,
+      } ,
       {
-        label: HOME_COPY.metrics.pokeballs,
-        value: String(user.pokeballs),
-      },
+        label: HOME_COPY.metrics.pokeballs ,
+        value: String(user.pokeballs) ,
+      } ,
       {
-        label: HOME_COPY.metrics.capturedPokemons,
-        value: String(capturedPokemonCount),
-      },
+        label: HOME_COPY.metrics.capturedPokemons ,
+        value: String(capturedPokemonCount) ,
+      } ,
       {
-        label: HOME_COPY.metrics.discoveredInPokedex,
-        value: String(discoveredPokedexCount),
-      },
+        label: HOME_COPY.metrics.discoveredInPokedex ,
+        value: String(discoveredPokedexCount) ,
+      } ,
       {
-        label: HOME_COPY.metrics.totalAuthentications,
-        value: String(user.total_authentications),
-      },
+        label: HOME_COPY.metrics.totalAuthentications ,
+        value: String(user.total_authentications) ,
+      } ,
       {
-        label: HOME_COPY.metrics.successRate,
-        value: successRate,
-        helper: `${ HOME_COPY.activity.success }: ${ user.authentication_success } / ${ HOME_COPY.activity.failures }: ${ user.authentication_failures }`,
-      },
+        label: HOME_COPY.metrics.successRate ,
+        value: successRate ,
+        helper: `${ HOME_COPY.activity.success }: ${ user.authentication_success } / ${ HOME_COPY.activity.failures }: ${ user.authentication_failures }` ,
+      } ,
     ];
-  }, [capturedPokemonCount, discoveredPokedexCount, user]);
+  } ,[capturedPokemonCount ,discoveredPokedexCount ,user]);
 
   if (!user) {
     return null;
@@ -105,10 +108,6 @@ const HomeDashboard = () => {
     }
 
     router.push(`/battle?wildId=${ wildEncounter.id }`);
-  };
-
-  const handleInitializeAdventure = (): void => {
-    router.push('/pokemon');
   };
 
   return (
@@ -162,26 +161,15 @@ const HomeDashboard = () => {
       { errorMessage ? <Alert type="error">{ errorMessage }</Alert> : null }
 
       { user.status === 'INCOMPLETE' ? (
-        <article className="rounded-2xl border border-amber-200 bg-amber-50/70 p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-slate-900">
-            { HOME_COPY.incompleteAdventure.title }
-          </h3>
-          <p className="mt-2 max-w-2xl text-sm text-slate-600 sm:text-base">
-            { HOME_COPY.incompleteAdventure.description }
-          </p>
-          <div className="mt-5">
-            <Button
-              tone="danger"
-              iconLeft={ <MdCatchingPokemon size={ 20 } aria-hidden="true"/> }
-              onClick={ handleInitializeAdventure }
-            >
-              { HOME_COPY.incompleteAdventure.cta }
-            </Button>
-          </div>
-        </article>
+        <InitializeAdventure
+          fetchPokemons={ fetchPokemons }
+          captureRate={ user?.capture_rate }
+          initializeAdventure={ initializeAdventure }
+        />
       ) : (
         <>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="trainer-metrics">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            aria-label="trainer-metrics">
             { metrics.map((metric) => (
               <BlankCard
                 key={ metric.label }
@@ -255,7 +243,8 @@ const HomeDashboard = () => {
             />
           </div>
 
-          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <article
+            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <h3 className="text-lg font-semibold text-slate-900">
               { HOME_COPY.topTeam.title }
             </h3>
@@ -296,7 +285,8 @@ const HomeDashboard = () => {
             ) }
           </article>
 
-          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <article
+            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <div
               className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
@@ -318,7 +308,8 @@ const HomeDashboard = () => {
                 disabled={ isFindingWild }
                 className="inline-flex items-center justify-center rounded-xl bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                <MdCatchingPokemon className="mr-2" size={ 20 } aria-hidden="true"/>
+                <MdCatchingPokemon className="mr-2" size={ 20 }
+                  aria-hidden="true"/>
                 { isFindingWild ?
                   HOME_COPY.encounter.ctaLoading :
                   HOME_COPY.encounter.cta }
@@ -332,13 +323,6 @@ const HomeDashboard = () => {
           </p>
         </>
       ) }
-
-
-
-
-
-
-
 
 
       { isEncounterOpen && wildEncounter ? (
@@ -406,8 +390,6 @@ const HomeDashboard = () => {
           </div>
         </div>
       ) : null }
-
-
     </section>
   );
 };

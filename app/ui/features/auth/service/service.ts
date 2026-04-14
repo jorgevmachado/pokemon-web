@@ -32,7 +32,7 @@ export class AuthService extends BaseServiceAbstract {
   }
 
   public async initialize(payload: InitializeParams): Promise<TTrainer> {
-    return await this.post<InitializeParams, TTrainer>('trainers', {
+    return await this.post<InitializeParams, TTrainer>('trainers/initialize', {
       body: payload,
     });
   }

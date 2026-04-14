@@ -5,19 +5,25 @@ import { useCallback, useState } from 'react';
 import { TPokedex } from '@/app/ui/features/pokedex/types';
 
 import { HOME_COPY } from './constants';
-import { HomeViewState, UseHomeOverviewResult } from './types';
+import {
+  ApiErrorResponse ,
+  FetchPokemonsParams ,
+  HomeViewState ,
+  UseHomeOverviewResult ,
+} from './types';
 import { useLoading } from '@/app/ds';
-import { TTrainer } from '@/app/ui';
+import { InitializeParams ,TPokemon ,TTrainer } from '@/app/ui';
 
-type ApiErrorResponse = {
-  message?: string;
-};
+
 
 const INITIAL_STATE: HomeViewState = {
   wildEncounter: undefined,
   isFindingWild: false,
   isEncounterOpen: false,
-  errorMessage: null,
+  errorMessage: undefined,
+  initialPokemons: undefined,
+  isFindingInitialPokemons: false,
+  isInitializeAdventure: false,
 };
 
 const isWildEncounter = (value: unknown): value is TPokedex => {
@@ -48,7 +54,7 @@ const useHomeOverview = (): UseHomeOverviewResult => {
     setState((previousState) => ({
       ...previousState,
       isFindingWild: true,
-      errorMessage: null,
+      errorMessage: undefined,
     }));
     startContentLoading();
     try {
@@ -95,11 +101,69 @@ const useHomeOverview = (): UseHomeOverviewResult => {
     }
   }, [startContentLoading, stopContentLoading]);
 
-  const initializeAdventure = useCallback(async (): Promise<void> => {
+  const fetchPokemons = useCallback(async (
+    params?: FetchPokemonsParams
+  ): Promise<Array<TPokemon>> => {
+    const {
+      captureRate = 45,
+      fetchErrorMessage = 'Failed to fetch pokemons',
+    } = params || {};
     setState((previousState) => ({
       ...previousState,
-      isFindingWild: true,
-      errorMessage: null,
+      isFindingInitialPokemons: true,
+      errorMessage: undefined,
+    }));
+
+    startContentLoading();
+    try {
+      const response = await fetch('/api/pokemon?order_by=capture_rate&status=COMPLETE', {
+        method: 'GET',
+        cache: 'no-store',
+      });
+
+      const json = (await response.json()) as Array<TPokemon> | ApiErrorResponse;
+
+      if (!response.ok) {
+        const message = 'message' in json && json.message ? json.message : fetchErrorMessage;
+        setState((previousState) => ({
+          ...previousState,
+          isFindingInitialPokemons: false,
+          errorMessage: message,
+        }));
+        return [];
+      }
+
+      const pokemons = json as Array<TPokemon>;
+      const filteredPokemons = pokemons.filter(pokemon => (pokemon.capture_rate || 0) <= captureRate);
+
+      setState((previousState) => ({
+        ...previousState,
+        initialPokemons: filteredPokemons,
+        isFindingInitialPokemons: true,
+        errorMessage: undefined,
+      }));
+      return filteredPokemons;
+    } catch (error) {
+      const errorMessage = error instanceof Error && error.message
+        ? error.message
+        : fetchErrorMessage;
+
+      setState((previousState) => ({
+        ...previousState,
+        isFindingInitialPokemons: false,
+        errorMessage,
+      }));
+      return [];
+    } finally {
+      stopContentLoading();
+    }
+  }, [startContentLoading, stopContentLoading]);
+
+  const initializeAdventure = useCallback(async (payload: InitializeParams): Promise<TTrainer | ApiErrorResponse> => {
+    setState((previousState) => ({
+      ...previousState,
+      isInitializeAdventure: true,
+      errorMessage: undefined,
     }));
     startContentLoading();
     try {
@@ -108,7 +172,7 @@ const useHomeOverview = (): UseHomeOverviewResult => {
         headers: {
           'content-type': 'application/json; charset=UTF-8',
         },
-        body: JSON.stringify({}),
+        body: JSON.stringify(payload),
       });
 
       const json = (await response.json()) as TTrainer | ApiErrorResponse;
@@ -118,19 +182,19 @@ const useHomeOverview = (): UseHomeOverviewResult => {
 
         setState((previousState) => ({
           ...previousState,
-          isFindingWild: false,
+          isInitializeAdventure: false,
           errorMessage: message,
         }));
 
-        return;
+        return { message };
       }
 
       setState((previousState) => ({
         ...previousState,
         wildEncounter: json,
-        isFindingWild: false,
-        isEncounterOpen: true,
+        isInitializeAdventure: true,
       }));
+      return json;
     } catch (error) {
       const errorMessage = error instanceof Error && error.message
         ? error.message
@@ -138,9 +202,10 @@ const useHomeOverview = (): UseHomeOverviewResult => {
 
       setState((previousState) => ({
         ...previousState,
-        isFindingWild: false,
+        isInitializeAdventure: false,
         errorMessage,
       }));
+      return { message: errorMessage };
     } finally {
       stopContentLoading();
     }
@@ -158,9 +223,14 @@ const useHomeOverview = (): UseHomeOverviewResult => {
     wildEncounter: state.wildEncounter,
     isFindingWild: state.isFindingWild,
     isEncounterOpen: state.isEncounterOpen,
+    isFindingInitialPokemons: state.isFindingInitialPokemons,
+    initialPokemons: state.initialPokemons,
     errorMessage: state.errorMessage,
+    isInitializeAdventure: state.isInitializeAdventure,
     findWildPokemon,
+    fetchPokemons,
     closeEncounter,
+    initializeAdventure
   };
 };
 

@@ -17,6 +17,8 @@ export type TListQuery = {
   page?: number;
   limit?: number;
   offset?: number;
+  order_by?: string;
+  order_direction?: 'asc' | 'desc';
 }
 
 export type PaginationProps = {
@@ -27,4 +29,8 @@ export type PaginationProps = {
   isLoading?: boolean;
   className?: string;
   ariaLabel?: string;
+};
+
+export type ApiErrorResponse = {
+  message?: string;
 };

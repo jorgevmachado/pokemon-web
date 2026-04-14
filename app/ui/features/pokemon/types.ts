@@ -1,7 +1,7 @@
 import { TPokemonType } from '@/app/ui/features/pokemon/type/types';
 import { TPokemonAbility } from '@/app/ui/features/pokemon/ability';
 import { TPokemonMove } from '@/app/ui/features/pokemon/move';
-import { FiltersProps ,TListQuery ,TPaginatedListResponse } from '@/app/ui';
+import { FiltersProps ,TListQuery ,TPaginatedListResponse } from '@/app/ds';
 
 export type TPokemonEvolution = {
   id: string;
@@ -42,6 +42,7 @@ export type TPokemon = {
 export type PokemonFilters = {
   order?: string;
   name?: string;
+  status?: string;
 }
 
 export type PokemonListQuery = TListQuery & PokemonFilters;

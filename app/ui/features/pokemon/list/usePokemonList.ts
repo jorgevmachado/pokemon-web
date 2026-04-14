@@ -1,6 +1,6 @@
 'use client';
 
-import type { FiltersProps } from '@/app/ui';
+import type { FiltersProps } from '@/app/ds';
 import usePaginatedList from '@/app/ui/features/shared/list/usePaginatedList';
 
 import type { PokemonFilters, TPokemon, UsePokemonListResult } from '../types';
@@ -32,7 +32,7 @@ const usePokemonList = (): UsePokemonListResult => {
     endpoint: '/api/pokemon',
     initialFilters: INITIAL_FILTERS,
     initialInputFilters: INITIAL_INPUT_FILTERS,
-    fetchErrorMessage: 'Could not fetch Pokédex entries.',
+    fetchErrorMessage: 'Could not fetch Pokémon entries.',
     normalizeFilters: (nextFilters) => ({
       name: nextFilters?.name?.trim(),
       order: nextFilters?.order?.trim(),

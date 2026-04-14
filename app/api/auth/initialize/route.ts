@@ -20,9 +20,9 @@ const toInitializeParams = async (request: Request): Promise<InitializeParams> =
     }
 
     return {
-      pokeballs: payload.pokeballs,
-      capture_rate: payload.capture_rate,
-      pokemon_name: payload.pokemon_name.trim() || undefined
+      pokeballs: payload?.pokeballs,
+      capture_rate: payload?.capture_rate,
+      pokemon_name: payload?.pokemon_name?.trim() || undefined
     };
   } catch {
     return {};

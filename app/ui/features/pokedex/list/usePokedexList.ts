@@ -1,6 +1,6 @@
 'use client';
 
-import type { FiltersProps } from '@/app/ui';
+import type { FiltersProps } from '@/app/ds';
 import usePaginatedList from '@/app/ui/features/shared/list/usePaginatedList';
 
 import type { PokedexFilters, TPokedex, UsePokedexListResult } from '../types';

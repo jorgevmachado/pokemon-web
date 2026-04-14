@@ -17,7 +17,7 @@ export type AutocompleteProps = Omit<
   name: string;
   value: string;
   options: Array<AutocompleteOption>;
-  onValueChange: (value: string) => void;
+  onValueChange?: (value: string) => void;
   onSelectOption?: (option: AutocompleteOption) => void;
   loadingPlaceholder?: string;
   noResultsText?: string;

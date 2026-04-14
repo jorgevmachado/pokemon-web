@@ -1,4 +1,4 @@
-import { FiltersProps ,TListQuery ,TPaginatedListResponse } from '@/app/ui';
+import { FiltersProps ,TListQuery ,TPaginatedListResponse } from '@/app/ds';
 import { TPokemon } from '@/app/ui/features/pokemon';
 
 export type TMyPokemon = {

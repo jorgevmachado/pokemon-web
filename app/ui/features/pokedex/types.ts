@@ -1,9 +1,6 @@
-import { TPokemon } from '@/app/ui/features/pokemon';
-import {
-  TListQuery ,
-  TPaginatedListResponse,
-} from '@/app/ds/pagination/types';
-import { FiltersProps } from '@/app/ui';
+import type { TPokemon } from '@/app/ui/features/pokemon';
+
+import type { FiltersProps, TListQuery ,TPaginatedListResponse, } from '@/app/ds';
 
 export type PokedexViewState = {
   items: TPaginatedListResponse<TPokedex>['items'];

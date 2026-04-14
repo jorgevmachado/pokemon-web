@@ -70,7 +70,7 @@ const Autocomplete = ({
 
   const selectOption = (option: AutocompleteOption): void => {
     setInputValue(option.value);
-    onValueChange(option.value);
+    onValueChange?.(option.value);
     onSelectOption?.(option);
     setIsOptionsOpen(false);
     setHighlightedIndex(-1);
@@ -93,7 +93,7 @@ const Autocomplete = ({
         showClearButton
         onClear={() => {
           setInputValue('');
-          onValueChange('');
+          onValueChange?.('');
           setIsOptionsOpen(false);
           setHighlightedIndex(-1);
         }}
@@ -155,7 +155,7 @@ const Autocomplete = ({
         }}
         onValueChange={(nextValue) => {
           setInputValue(nextValue);
-          onValueChange(nextValue);
+          onValueChange?.(nextValue);
           setIsOptionsOpen(true);
         }}
       />
