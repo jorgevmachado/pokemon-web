@@ -1,6 +1,6 @@
 import { useCallback ,useEffect ,useRef ,useState } from 'react';
 import { useLoading } from '@/app/ds';
-import { useBreadcrumb } from '@/app/ui/components/breadcrumb';
+import { useBreadcrumb } from '@/app/ds/breadcrumb';
 import { normalizedName } from '@/app/utils';
 import {
   PokemonViewDetailState ,TPokemon ,

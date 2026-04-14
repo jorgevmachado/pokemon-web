@@ -10,7 +10,7 @@ import { AlertProvider } from '@/app/ds';
 import { LoadingProvider } from '@/app/ds/loading';
 
 import './globals.css';
-import { BreadcrumbProvider } from '@/app/ui/components/breadcrumb';
+import { BreadcrumbProvider } from '@/app/ds/breadcrumb';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

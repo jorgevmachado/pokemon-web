@@ -2,7 +2,7 @@
 import React from 'react';
 import {
   BreadcrumbContext
-} from '@/app/ui/components/breadcrumb/BreadcrumbContext';
+} from '@/app/ds/breadcrumb/BreadcrumbContext';
 
 const BreadcrumbProvider: React.FC<{children: React.ReactNode }> = ({ children }) => {
   const [labels, setLabels] = React.useState<Record<string, string>>({});

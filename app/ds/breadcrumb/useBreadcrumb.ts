@@ -1,8 +1,8 @@
-import { BreadcrumbContextProps } from '@/app/ui/components/breadcrumb/types';
+import { BreadcrumbContextProps } from '@/app/ds/breadcrumb/types';
 import React from 'react';
 import {
   BreadcrumbContext
-} from '@/app/ui/components/breadcrumb/BreadcrumbContext';
+} from '@/app/ds/breadcrumb/BreadcrumbContext';
 
 export const useBreadcrumb = (): BreadcrumbContextProps => {
   const context = React.useContext(BreadcrumbContext);

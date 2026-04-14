@@ -6,7 +6,7 @@ import React, { useCallback, useState } from 'react';
 import { logoutAction } from '@/app/actions/auth';
 import { useUser } from '@/app/ui/features/auth';
 
-import { Breadcrumb } from '@/app/ui/components/breadcrumb';
+import { Breadcrumb } from '@/app/ds';
 
 import { AUTHENTICATED_MENU_ITEMS } from './constants';
 import Navbar from './Navbar';

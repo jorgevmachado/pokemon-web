@@ -6,7 +6,7 @@ import React, { useMemo } from 'react';
 import { MdChevronRight, MdHome } from 'react-icons/md';
 
 import { buildBreadcrumbs } from './breadcrumb-config';
-import { useBreadcrumb } from '@/app/ui/components/breadcrumb/useBreadcrumb';
+import { useBreadcrumb } from '@/app/ds/breadcrumb/useBreadcrumb';
 
 /**
  * Global breadcrumb component.

@@ -24,6 +24,14 @@ export {
   type BarChartTone,
 } from './bar-chart';
 export {
+  default as Breadcrumb,
+  type BreadcrumbItem,
+  BreadcrumbProvider,
+  buildBreadcrumbs,
+  ROUTE_SEGMENT_LABELS,
+  useBreadcrumb,
+} from './breadcrumb';
+export {
   default as Button,
   type ButtonAppearance,
   type ButtonProps,
