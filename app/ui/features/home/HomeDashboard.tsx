@@ -16,6 +16,7 @@ import { Alert ,Badge } from '@/app/ds';
 import { useUser } from '@/app/ui/features/auth';
 import BlankCard from '@/app/ui/components/blank-card';
 import Card from '@/app/ui/components/card/Card';
+import { Card as DSCard, Text } from '@/app/ds';
 import { displayDate } from '@/app/utils/string/string';
 
 import { HOME_COPY } from './constants';
@@ -112,44 +113,50 @@ const HomeDashboard = () => {
 
   return (
     <section className="mx-auto w-full max-w-6xl space-y-5">
-      <header
-        className="rounded-2xl border border-slate-200 bg-linear-to-r from-white to-slate-50 p-6 shadow-sm">
-        <p
-          className="text-xs font-semibold uppercase tracking-wide text-blue-700">
-          { HOME_COPY.dashboardLabel }
-        </p>
-        <h2
-          className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-          { HOME_COPY.title }
-        </h2>
-        <p className="mt-2 max-w-2xl text-sm text-slate-600 sm:text-base">
-          { HOME_COPY.subtitle }
-        </p>
-        <div
-          className="mt-5 flex flex-wrap items-center gap-4 text-sm text-slate-700">
-          <Badge
-            size="lg"
-            tone="primary"
-            iconLeft={ <MdOutlinePerson aria-hidden="true"/> }
-          >
-            { user.name }
-          </Badge>
-          <Badge
-            size="lg"
-            tone="neutral"
-            iconLeft={ <MdOutlineEmail aria-hidden="true"/> }
-          >
-            { user.email }
-          </Badge>
-          <Badge
-            size="lg"
-            tone="success"
-            iconLeft={ <MdOutlineVerified aria-hidden="true"/> }
-          >
-            { user.status }
-          </Badge>
-
-        </div>
+      <header>
+        <DSCard
+          as="div"
+          padding="lg"
+          rounded="2xl"
+          shadow="sm"
+          borderColor="slate-200"
+          borderWidth={1}
+          backgroundColor="white"
+          className="bg-linear-to-r from-white to-slate-50"
+        >
+          <Text size="xs" weight="semibold" transform="uppercase" tracking="wide" tone="primary">
+            { HOME_COPY.dashboardLabel }
+          </Text>
+          <Text as="h2" tone="default" className="mt-2">
+            { HOME_COPY.title }
+          </Text>
+          <Text size="sm" tone="muted" className="mt-2 max-w-2xl sm:text-base">
+            { HOME_COPY.subtitle }
+          </Text>
+          <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-slate-700">
+            <Badge
+              size="lg"
+              tone="primary"
+              iconLeft={ <MdOutlinePerson aria-hidden="true"/> }
+            >
+              { user.name }
+            </Badge>
+            <Badge
+              size="lg"
+              tone="neutral"
+              iconLeft={ <MdOutlineEmail aria-hidden="true"/> }
+            >
+              { user.email }
+            </Badge>
+            <Badge
+              size="lg"
+              tone="success"
+              iconLeft={ <MdOutlineVerified aria-hidden="true"/> }
+            >
+              { user.status }
+            </Badge>
+          </div>
+        </DSCard>
       </header>
 
       { isUsingFallbackData ? (
@@ -179,12 +186,11 @@ const HomeDashboard = () => {
               />
             )) }
           </div>
-
           <div className="grid gap-4 lg:grid-cols-2">
             <BlankCard
               title={ {
-                text: HOME_COPY.profile.title ,
-                font: 'semibold' ,
+                children: HOME_COPY.profile.title ,
+                weight: 'semibold' ,
                 size: 'lg' ,
               } }
               shadow="sm"
@@ -213,8 +219,8 @@ const HomeDashboard = () => {
             />
             <BlankCard
               title={ {
-                text: HOME_COPY.activity.title ,
-                font: 'semibold' ,
+                children: HOME_COPY.activity.title ,
+                weight: 'semibold' ,
                 size: 'lg' ,
               } }
               shadow="sm"

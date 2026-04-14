@@ -1,11 +1,11 @@
 import React ,{ useMemo } from 'react';
 import {
+  TextProps ,
   TOption ,
   TRounded ,
   TShadow ,
 } from '@/app/ui/components/types';
 import { joinClass } from '@/app/utils';
-import { Text, TextProps } from '@/app/ds';
 
 type BlankCardProps = {
   label?: string;
@@ -49,29 +49,40 @@ const BlankCard = ({
       return;
     }
     const titleProps: TextProps = {
-      children: '' ,
+      text: '' ,
       size: '2xl' ,
-      weight: 'bold' ,
-      color: 'text-slate-900' ,
+      font: 'bold' ,
+      textColor: 'text-slate-900' ,
       className: joinClass([
         label && 'mt-02' ,
+        'text-2xl' ,
+        'font-bold' ,
+        'text-slate-900',
       ]) ,
     };
     if (typeof title === 'string') {
-      titleProps.children = title;
+      titleProps.text = title;
       return titleProps;
     }
 
-    titleProps.children = title?.children || '';
+    titleProps.text = title?.text || '';
     if (title?.size) {
-      titleProps.size = title?.size || titleProps.size;
+      titleProps.size = title?.size || '2xl';
     }
-    if (title?.weight) {
-      titleProps.weight = title?.weight || titleProps.weight;
+    if (title?.font) {
+      titleProps.font = title?.font || 'bold';
     }
-    if (title?.color) {
-      titleProps.color = title?.color || titleProps.color;
+    if (title?.textColor) {
+      titleProps.textColor = title?.textColor || 'text-slate-900';
     }
+
+    titleProps.className = joinClass([
+      title?.className || '' ,
+      label && 'mt-2' ,
+      `text-${ titleProps.size }` ,
+      `font-${ titleProps.font }` ,
+      titleProps.textColor,
+    ]);
 
     return titleProps;
   } ,[label ,title]);
@@ -79,30 +90,21 @@ const BlankCard = ({
   return (
     <article className={ className }>
       { label && (
-        <Text size="xs" weight="semibold" transform="uppercase" tracking="wide" tone="subtle">{ label }</Text>
+        <p
+          className="text-xs font-semibold uppercase tracking-wide text-slate-500">{ label }</p>
       ) }
       { titleElement && (
-        <>
-          <Text {...titleElement}>{titleElement.children}</Text>
-        </>
+        <p className={ titleElement.className }>{ titleElement.text }</p>
       ) }
       { list && list.length > 0 && (
         <div className="mt-4 divide-y divide-slate-100">
           { list.map(({ label ,value }) => (
             <div key={ label }
               className="flex items-center justify-between gap-3 py-2">
-              <Text
-                as="span"
-                size="sm"
-                weight="medium"
-                tone="subtle"
-              >{ label }</Text>
-              <Text
-                as="span"
-                size="sm"
-                weight="semibold"
-                color="text-slate-800"
-              >{ value }</Text>
+              <span
+                className="text-sm font-medium text-slate-500">{ label }</span>
+              <span
+                className="text-sm font-semibold text-slate-800">{ value }</span>
             </div>
           )) }
         </div>

@@ -39,6 +39,12 @@ export {
   type ButtonTone,
 } from './button';
 export {
+  default as Card,
+  type CardProps,
+  type CardSize,
+  type CardVariant,
+} from './card';
+export {
   default as Filters,
   type FiltersProps,
 } from './filters';
@@ -65,3 +71,21 @@ export {
   type TPaginatedListResponse,
   type TPaginatedMeta,
 } from './pagination';
+export {
+  default as Text,
+  type TextAlign,
+  type TextBreak,
+  type TextDecoration,
+  type TextDisplay,
+  type TextFontFamily,
+  type TextLeading,
+  type TextLineClamp,
+  type TextProps,
+  type TextSize,
+  type TextTag,
+  type TextTagProps,
+  type TextTone,
+  type TextTracking,
+  type TextTransform,
+  type TextWhitespace,
+  type TextWrap } from './text';
