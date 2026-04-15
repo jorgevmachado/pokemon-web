@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { Autocomplete, Input } from '@/app/ds';
+import { Autocomplete ,Button ,Input } from '@/app/ds';
 import type { FiltersProps } from './types';
 import { joinClass } from '@/app/utils';
 
@@ -95,22 +95,22 @@ const Filters = ({
       </div>
 
       <div className="mt-4 flex flex-wrap justify-end gap-2">
-        <button
+        <Button
           type="button"
+          tone="neutral"
           onClick={handleClear}
           disabled={!hasActiveFilters}
-          className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-600 transition enabled:hover:border-slate-300 enabled:hover:text-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
         >
           { filterCleanLabel }
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
+          tone="primary"
           onClick={handleApply}
-          className="rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white shadow-sm transition hover:bg-blue-700"
         >
           { filterApplyLabel }
-        </button>
+        </Button>
       </div>
 
     </section>

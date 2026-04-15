@@ -12,7 +12,7 @@ import {
   MdOutlineVerified ,
 } from 'react-icons/md';
 
-import { Alert ,Badge } from '@/app/ds';
+import { Alert ,Badge ,Button } from '@/app/ds';
 import { useUser } from '@/app/ui/features/auth';
 import BlankCard from '@/app/ui/components/blank-card';
 import Card from '@/app/ui/components/card/Card';
@@ -312,20 +312,19 @@ const HomeDashboard = () => {
                   { HOME_COPY.encounter.description }
                 </Text>
               </div>
-              <button
+              <Button
                 type="button"
                 onClick={ () => {
                   void findWildPokemon();
                 } }
+                tone="danger"
+                iconLeft={ <MdCatchingPokemon size={20} aria-hidden="true"/> }
                 disabled={ isFindingWild }
-                className="inline-flex items-center justify-center rounded-xl bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                <MdCatchingPokemon className="mr-2" size={ 20 }
-                  aria-hidden="true"/>
                 { isFindingWild ?
                   HOME_COPY.encounter.ctaLoading :
                   HOME_COPY.encounter.cta }
-              </button>
+              </Button>
             </div>
           </article>
 
@@ -381,20 +380,21 @@ const HomeDashboard = () => {
             </div>
 
             <div className="mt-6 grid grid-cols-2 gap-3">
-              <button
+              <Button
                 type="button"
+                tone="neutral"
                 onClick={ closeEncounter }
-                className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
               >
                 { HOME_COPY.encounter.fleeAction }
-              </button>
-              <button
+              </Button>
+
+              <Button
                 type="button"
                 onClick={ handleBattle }
-                className="rounded-xl bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700"
+                tone="danger"
               >
                 { HOME_COPY.encounter.battleAction }
-              </button>
+              </Button>
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { type ButtonHTMLAttributes, type ReactNode } from 'react';
+import { TTone } from '@/app/utils';
 
 export type ButtonAppearance =
   | 'solid'
@@ -7,14 +8,12 @@ export type ButtonAppearance =
   | 'icon'
   | 'iconNoBorder';
 
-export type ButtonTone = 'primary' | 'secondary' | 'danger' | 'success' | 'neutral';
-
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
   children?: ReactNode;
   appearance?: ButtonAppearance;
-  tone?: ButtonTone;
+  tone?: TTone;
   size?: ButtonSize;
   iconLeft?: ReactNode;
   iconRight?: ReactNode;

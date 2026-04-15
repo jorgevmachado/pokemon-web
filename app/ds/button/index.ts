@@ -3,6 +3,5 @@ export type {
   ButtonAppearance,
   ButtonProps,
   ButtonSize,
-  ButtonTone,
 } from './types';
 
