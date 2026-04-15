@@ -251,15 +251,17 @@ const HomeDashboard = () => {
 
           <article
             className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="text-lg font-semibold text-slate-900">
+            <Text size="lg" weight="semibold" tone="default">
               { HOME_COPY.topTeam.title }
-            </h3>
+            </Text>
 
             { topLevelPokemons.length === 0 ? (
-              <p
-                className="mt-3 text-sm text-slate-600">
+              <Text
+                size="sm"
+                tone="muted"
+                className="mt-3">
                 { HOME_COPY.topTeam.empty }
-              </p>
+              </Text>
             ) : (
               <div className="mt-4 grid gap-3 md:grid-cols-3">
                 { topLevelPokemons.map((myPokemon) => (
@@ -296,15 +298,19 @@ const HomeDashboard = () => {
             <div
               className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h3
-                  className="inline-flex items-center gap-2 text-lg font-semibold text-slate-900"
+                <Text
+                  as="h3"
+                  size="lg"
+                  tone="default"
+                  weight="semibold"
+                  className="inline-flex items-center gap-2"
                 >
                   <MdOutlineSecurity aria-hidden="true"/>
                   { HOME_COPY.encounter.title }
-                </h3>
-                <p className="mt-1 text-sm text-slate-600">
+                </Text>
+                <Text size="sm" tone="muted"  className="mt-1">
                   { HOME_COPY.encounter.description }
-                </p>
+                </Text>
               </div>
               <button
                 type="button"
@@ -340,15 +346,12 @@ const HomeDashboard = () => {
             aria-labelledby="wild-encounter-title"
             className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-5 shadow-xl sm:p-6"
           >
-            <h3
-              id="wild-encounter-title"
-              className="text-xl font-bold text-slate-900"
-            >
+            <Text size="xl" weight="bold" tone="default" id="wild-encounter-title">
               { HOME_COPY.encounter.modalTitle }
-            </h3>
-            <p
-              className="mt-1 text-sm text-slate-600">{ HOME_COPY.encounter.modalSubtitle }</p>
-
+            </Text>
+            <Text className="mt-1" size="sm" tone="muted" id="wild-encounter-subtitle">
+              { HOME_COPY.encounter.modalSubtitle }
+            </Text>
             <div
               className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <Card

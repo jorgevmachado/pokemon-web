@@ -5,7 +5,7 @@ import {
   TShadow ,
 } from '@/app/ui/components/types';
 import { joinClass } from '@/app/utils';
-import { Text, TextProps } from '@/app/ds';
+import { Text, Card, TextProps } from '@/app/ds';
 
 type BlankCardProps = {
   label?: string;
@@ -27,23 +27,6 @@ const BlankCard = ({
   textColor ,
   backgroundColor = 'bg-white/95' ,
 }: BlankCardProps) => {
-  const className = useMemo(() => {
-    const classNames: Array<string> = [
-      `rounded-${ rounded }` ,
-      'border' ,
-      'border-slate-200/60' ,
-      'p-4' ,
-      backgroundColor,
-    ];
-    if (textColor) {
-      classNames.push(textColor);
-    }
-    if (shadow) {
-      classNames.push(`shadow-${ shadow }`);
-    }
-    return joinClass(classNames);
-  } ,[backgroundColor ,rounded ,shadow ,textColor]);
-
   const titleElement = useMemo(() => {
     if (!title) {
       return;
@@ -77,7 +60,7 @@ const BlankCard = ({
   } ,[label ,title]);
 
   return (
-    <article className={ className }>
+    <Card shadow={shadow} rounded={rounded}  borderColor="slate-200/60">
       { label && (
         <Text size="xs" weight="semibold" transform="uppercase" tracking="wide" tone="subtle">{ label }</Text>
       ) }
@@ -112,7 +95,7 @@ const BlankCard = ({
         <p className="mt-1 text-xs text-slate-500">{ helper }</p>
       ) }
 
-    </article>
+    </Card>
   );
 };
 export default BlankCard;
