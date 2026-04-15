@@ -68,7 +68,7 @@ const Pagination = ({
       isCurrent
         ? 'border-blue-600 bg-blue-600 text-white'
         : 'border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:text-blue-700',
-      disabled ? 'cursor-not-allowed opacity-50 hover:border-slate-200 hover:text-slate-700' : undefined,
+      disabled ? 'cursor-not-allowed opacity-50 hover:border-slate-200 hover:text-slate-700' : 'cursor-pointer',
     ]);
   };
 

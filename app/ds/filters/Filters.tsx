@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { Autocomplete ,Button ,Input } from '@/app/ds';
+import { Autocomplete ,Button ,Input ,Text } from '@/app/ds';
 import type { FiltersProps } from './types';
 import { joinClass } from '@/app/utils';
 
@@ -63,10 +63,14 @@ const Filters = ({
             'gap-1.5',
             type === 'autocomplete' && 'relative',
           ])}>
-            <span
-              className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+            <Text
+              size="xs"
+              color="text-slate-600"
+              weight="semibold"
+              tracking="wide"
+              className="uppercase">
               { label }
-            </span>
+            </Text>
             { type === 'autocomplete' && options ? (
               <Autocomplete
                 name={name}

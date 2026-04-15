@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 
 import { clampPercentage, joinClass } from '@/app/utils';
+import { Text } from '@/app/ds';
 
 import {
   type BarChartProps,
@@ -101,29 +102,35 @@ const BarChart = ({
       {...wrapperProps}
       className={joinClass(['flex items-center', sizeClass.wrapper, className])}
     >
-      { label && (
-        <span
+      {label && (
+        <Text
+          as="span"
+          weight='semibold'
+          color="text-slate-400"
           className={joinClass([
-            'shrink-0 text-right font-semibold text-slate-400',
+            'shrink-0 text-right',
             sizeClass.label,
             labelClassName,
           ])}
         >
           {label}
-        </span>
-      ) }
+        </Text>
+      )}
 
 
       {showValue ? (
-        <span
+        <Text
+          as="span"
+          color="text-slate-700"
+          weight='bold'
           className={joinClass([
-            'shrink-0 text-center font-bold text-slate-700',
+            'shrink-0 text-center',
             sizeClass.value,
             valueClassName,
           ])}
         >
           {displayValue}
-        </span>
+        </Text>
       ) : null}
 
       <div

@@ -14,8 +14,6 @@ type BlankCardProps = {
   shadow?: TShadow;
   helper?: string;
   rounded?: TRounded;
-  textColor?: string;
-  backgroundColor?: string;
 };
 const BlankCard = ({
   list ,
@@ -24,8 +22,6 @@ const BlankCard = ({
   helper ,
   shadow ,
   rounded = '2xl' ,
-  textColor ,
-  backgroundColor = 'bg-white/95' ,
 }: BlankCardProps) => {
   const titleElement = useMemo(() => {
     if (!title) {

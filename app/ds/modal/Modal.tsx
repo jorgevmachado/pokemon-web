@@ -6,7 +6,7 @@ import { IoClose } from 'react-icons/io5';
 import { ModalProps } from './types';
 import './Modal.scss';
 import { TWidth } from '@/app/ui';
-import { Button } from '@/app/ds';
+import { Button ,Text } from '@/app/ds';
 
 const WIDTH_CLASS_MAP: Record<TWidth, string> = {
   '3xs': 'max-w-3xs',
@@ -93,16 +93,19 @@ const Modal = ({
       >
         <div className='flex items-start justify-between border-b border-gray-200 px-6 py-4'>
           <div className='flex-1'>
-            <h2 id='modal-title' className='text-xl font-bold text-gray-900'>
+            <Text id='modal-title' as="h2"  size="xl" weight="bold" color="text-gray-900">
               {title}
-            </h2>
+            </Text>
             {subtitle && (
-              <p
+              <Text
                 id='modal-description'
-                className='mt-1 text-sm text-gray-600'
+                as="p"
+                size="sm"
+                color="text-gray-600"
+                className='mt-1'
               >
                 {subtitle}
-              </p>
+              </Text>
             )}
           </div>
 

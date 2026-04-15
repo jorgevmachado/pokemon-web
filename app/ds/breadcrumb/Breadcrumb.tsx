@@ -7,6 +7,7 @@ import { MdChevronRight, MdHome } from 'react-icons/md';
 
 import { buildBreadcrumbs } from './breadcrumb-config';
 import { useBreadcrumb } from '@/app/ds/breadcrumb/useBreadcrumb';
+import { Text } from '@/app/ds';
 
 /**
  * Global breadcrumb component.
@@ -52,12 +53,14 @@ const Breadcrumb = () => {
               className='shrink-0 text-slate-300'
             />
             {item.isCurrent ? (
-              <span
+              <Text
+                size="sm"
+                color="text-slate-700"
+                weight="semibold"
                 aria-current='page'
-                className='text-sm font-semibold text-slate-700'
               >
                 {item.label}
-              </span>
+              </Text>
             ) : (
               <Link
                 href={item.href}
