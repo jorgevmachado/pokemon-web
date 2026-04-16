@@ -36,7 +36,6 @@ export {
   type ButtonAppearance,
   type ButtonProps,
   type ButtonSize,
-  type ButtonTone,
 } from './button';
 export {
   default as Card,
@@ -48,6 +47,12 @@ export {
   default as Filters,
   type FiltersProps,
 } from './filters';
+export {
+  default as Image,
+  type ImageProps,
+  type TFit,
+  type TImageSize
+} from './image';
 export {
   default as Input,
   type InputProps,

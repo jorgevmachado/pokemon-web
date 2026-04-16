@@ -9,7 +9,7 @@ import {
   type TShadow ,
 } from '@/app/utils';
 
-export type CardVariant = 'elevated' | 'filled' | 'outlined' | 'tonal';
+export type CardVariant = 'elevated' | 'filled' | 'outlined' | 'tonal' | 'none';
 
 export type CardSize = 'sm' | 'md' | 'lg' | 'xl';
 

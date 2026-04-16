@@ -2,7 +2,7 @@
 
 import React from 'react';
 import usePokedexList from './usePokedexList';
-import { ListPokemon } from '@/app/ui';
+import { NewListPokemon } from '@/app/ui';
 
 const PokedexList = () => {
   const {
@@ -17,17 +17,12 @@ const PokedexList = () => {
   } = usePokedexList();
 
   return (
-    <ListPokemon
+    <NewListPokemon
       meta={ meta }
       items={ items.map((item) => ({
         id: item.id ,
-        name: item.pokemon.name ,
-        types: item.pokemon.types ,
-        order: item.pokemon.order ,
-        image: item.pokemon.image ,
-        showInfo: item.discovered ,
-        nickname: item.nickname ,
-        externalImage: item.pokemon.external_image ,
+        pokemon: item.pokemon,
+        registry: item,
       })) }
       filters={ inputFilters }
       pageName="Pokédex"

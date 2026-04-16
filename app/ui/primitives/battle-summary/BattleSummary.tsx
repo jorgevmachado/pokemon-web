@@ -1,42 +1,23 @@
-import React ,{ useMemo } from 'react';
+import React from 'react';
 import { BattleSummaryProps } from './types';
-import { joinClass } from '@/app/utils';
-
+import { Card } from '@/app/ds';
 
 const BattleSummary = ({
-  wins = 0,
-  title,
+  wins = 0 ,
+  title ,
   losses = 0 ,
-  battles = 0,
-  withBorder = true,
-  className,
+  battles = 0 ,
+  withBorder = true ,
+  className ,
 }: BattleSummaryProps) => {
-  
-  const classNameList = useMemo(() => {
-    const classNames= [
-      'bg-white',
-    ];
-    if (withBorder) {
-      classNames.push('rounded-2xl');
-      classNames.push('border');
-      classNames.push('border-slate-200/60');
-      classNames.push('p-5');
-      classNames.push('shadow-sm');
-    }
-    if (className) {
-      classNames.push(className);
-    }
-    return joinClass(classNames);
-  }, [className, withBorder]);
   return (
-    <article
-      className={classNameList}>
-      {title && (
+    <Card variant={ withBorder ? 'elevated' : 'none' } shadow={ withBorder ? 'sm' : 'none' } className={ className }>
+      { title && (
         <h2
           className="mb-4 text-sm font-bold uppercase tracking-widest text-slate-400">
           { title }
         </h2>
-      )}
+      ) }
       <div className="grid grid-cols-3 gap-3">
         <div
           className="rounded-xl border border-slate-100 bg-slate-50 px-3 py-3 text-center">
@@ -63,7 +44,7 @@ const BattleSummary = ({
           <p className="mt-1 text-2xl font-bold text-rose-700">{ losses }</p>
         </div>
       </div>
-    </article>
+    </Card>
   );
 };
 

@@ -13,6 +13,7 @@ import {
 } from 'react-icons/md';
 
 import { Alert ,Badge ,Button } from '@/app/ds';
+import { PokemonCard } from '@/app/ui';
 import { useUser } from '@/app/ui/features/auth';
 import BlankCard from '@/app/ui/components/blank-card';
 import Card from '@/app/ui/components/card/Card';
@@ -22,6 +23,7 @@ import { displayDate } from '@/app/utils/string/string';
 import { HOME_COPY } from './constants';
 import useHomeOverview from './useHomeOverview';
 import InitializeAdventure from '@/app/ui/features/home/initialize-adventure';
+
 
 const HomeDashboard = () => {
   const router = useRouter();
@@ -265,28 +267,15 @@ const HomeDashboard = () => {
             ) : (
               <div className="mt-4 grid gap-3 md:grid-cols-3">
                 { topLevelPokemons.map((myPokemon) => (
-                  <Card
+                  <PokemonCard
                     key={ myPokemon.id }
-                    id={ myPokemon.id }
-                    tags={ myPokemon?.pokemon?.types?.map((type) => ({
-                      key: type.id ,
-                      name: type.name ,
-                      style: {
-                        color: type.text_color ,
-                        backgroundColor: type.background_color ,
-                      } ,
-                    })) }
-                    name={ myPokemon.pokemon.name }
-                    order={ myPokemon.pokemon.order }
-                    nickname={ myPokemon.nickname }
-                    image={ {
-                      image: myPokemon.pokemon.image ,
-                      externalImage: myPokemon.pokemon.external_image ,
-                    } }
-                    showInfo={ true }
+                    align="VERTICAL"
+                    registry={ myPokemon }
                     onClick={ (item) => {
                       router.push(`/my-pokemon/${ item.id }`);
                     } }
+                    showStats={true}
+                    showBattleSummary={true}
                   />
                 )) }
               </div>

@@ -17,6 +17,7 @@ const VARIANT_CLASS_MAP = {
   filled: 'bg-slate-100 shadow-sm',
   outlined: 'bg-white border-2 border-slate-200',
   tonal: 'bg-slate-50 border border-slate-100',
+  none: ''
 } as const satisfies Record<CardVariant, string>;
 
 /**
