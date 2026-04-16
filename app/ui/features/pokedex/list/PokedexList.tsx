@@ -2,7 +2,7 @@
 
 import React from 'react';
 import usePokedexList from './usePokedexList';
-import { NewListPokemon } from '@/app/ui';
+import { ListPokemon } from '@/app/ui';
 
 const PokedexList = () => {
   const {
@@ -17,11 +17,10 @@ const PokedexList = () => {
   } = usePokedexList();
 
   return (
-    <NewListPokemon
+    <ListPokemon
       meta={ meta }
       items={ items.map((item) => ({
         id: item.id ,
-        pokemon: item.pokemon,
         registry: item,
       })) }
       filters={ inputFilters }

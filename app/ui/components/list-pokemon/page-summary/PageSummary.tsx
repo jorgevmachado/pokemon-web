@@ -1,5 +1,5 @@
 import React ,{ useMemo } from 'react';
-import { TPaginatedMeta } from '@/app/ui';
+import { TPaginatedMeta } from '@/app/ds';
 
 type PageSummaryProps = {
   meta: TPaginatedMeta;

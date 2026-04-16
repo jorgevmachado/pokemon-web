@@ -16,8 +16,7 @@ import { Alert ,Badge ,Button } from '@/app/ds';
 import { PokemonCard } from '@/app/ui';
 import { useUser } from '@/app/ui/features/auth';
 import BlankCard from '@/app/ui/components/blank-card';
-import Card from '@/app/ui/components/card/Card';
-import { Card as DSCard, Text } from '@/app/ds';
+import { Card, Text } from '@/app/ds';
 import { displayDate } from '@/app/utils/string/string';
 
 import { HOME_COPY } from './constants';
@@ -116,7 +115,7 @@ const HomeDashboard = () => {
   return (
     <section className="mx-auto w-full max-w-6xl space-y-5">
       <header>
-        <DSCard
+        <Card
           as="div"
           padding="lg"
           rounded="2xl"
@@ -158,7 +157,7 @@ const HomeDashboard = () => {
               { user.status }
             </Badge>
           </div>
-        </DSCard>
+        </Card>
       </header>
 
       { isUsingFallbackData ? (
@@ -342,29 +341,16 @@ const HomeDashboard = () => {
             </Text>
             <div
               className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-              <Card
+
+              <PokemonCard
                 key={ wildEncounter.id }
-                id={ wildEncounter.id }
-                tags={ wildEncounter?.pokemon?.types?.map((type) => ({
-                  key: type.id ,
-                  name: type.name ,
-                  style: {
-                    color: type.text_color ,
-                    backgroundColor: type.background_color ,
-                  } ,
-                })) }
-                name={ wildEncounter.pokemon.name }
-                order={ wildEncounter.pokemon.order }
-                nickname={ wildEncounter.nickname }
-                image={ {
-                  image: wildEncounter.pokemon.image ,
-                  externalImage: wildEncounter.pokemon.external_image ,
-                  size: 'sm' ,
-                } }
-                showInfo={ true }
+                align="VERTICAL"
+                registry={ wildEncounter }
                 onClick={ (item) => {
                   router.push(`/pokedex/${ item.id }`);
                 } }
+                showStats={true}
+                showBattleSummary={true}
               />
             </div>
 

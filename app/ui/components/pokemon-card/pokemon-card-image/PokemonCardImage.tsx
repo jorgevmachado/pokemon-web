@@ -18,6 +18,7 @@ const IMAGE_SIZE_FRAME_CLASS_MAP: Record<TImageSize, string> = {
   sm: 'max-h-56',
   md: 'max-h-72',
   lg: 'max-h-80',
+  xl: 'max-h-88',
 };
 
 const PokemonCardImage = ({

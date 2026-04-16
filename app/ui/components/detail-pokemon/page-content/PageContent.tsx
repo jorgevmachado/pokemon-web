@@ -1,5 +1,4 @@
 import PageContentArtwork from './page-content-artwork';
-import StatsCard from '@/app/ui/components/stats-card/StatsCard';
 import React from 'react';
 import BattleSummary from '../../../primitives/battle-summary';
 import CardDescription from '@/app/ui/components/card-description';
@@ -7,6 +6,7 @@ import InfoPanel from '@/app/ui/components/info-panel';
 import CardBadge from '@/app/ui/components/card-badge';
 import { normalizedName } from '@/app/utils';
 import { DetailPokemonItem } from '@/app/ui/components/detail-pokemon/types';
+import PokemonStats from '../../pokemon-stats';
 
 type PageContentProps = {
   item: DetailPokemonItem;
@@ -25,7 +25,7 @@ const PageContent = ({ displayName, item }: PageContentProps) => {
           externalImage={item.external_image}
         />
 
-        <StatsCard
+        <PokemonStats
           hp={ item.hp }
           title="STATS"
           maxHp={ item.maxHp }
@@ -34,6 +34,7 @@ const PageContent = ({ displayName, item }: PageContentProps) => {
           defense={ item.defense }
           specialAttack={ item.special_attack }
           specialDefense={ item.special_defense }
+          withBorder={true}
         />
 
         <BattleSummary

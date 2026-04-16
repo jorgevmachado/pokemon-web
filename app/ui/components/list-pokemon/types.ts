@@ -1,18 +1,12 @@
 import { TPokemon } from '@/app/ui/features/pokemon';
 import { FiltersProps ,TPaginatedMeta } from '@/app/ds';
+import { TRegistry } from '@/app/ui';
 
 export type ListPokemonItem = {
   id: string;
-  name?: string;
-  types: TPokemon['types'];
-  order: number;
-  image?: string;
-  showInfo?: boolean;
-  nickname?: string;
-  externalImage?: string;
+  pokemon?: TPokemon;
+  registry?: TRegistry;
 }
-
-export type TShowItem = 'DISCOVERED' | 'STATUS';
 
 export type ListPokemonProps = {
   meta: TPaginatedMeta;
@@ -20,7 +14,6 @@ export type ListPokemonProps = {
   filters: FiltersProps['filters'];
   pageName: string;
   goToPage: (page: number) => void;
-  showType?: TShowItem;
   pageRoute: string;
   isLoading?: boolean;
   clearFilters: () => void;

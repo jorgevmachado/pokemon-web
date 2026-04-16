@@ -1,13 +1,10 @@
 // export * from './blank-card';
-export { default as Card, type CardOnClickParams,type CardProps, type CardTagProps } from './card';
 export * from './card-badge';
 export * from './card-description';
 export { default as DetailPokemon } from './detail-pokemon';
 export * from './evolution-chain';
 export * from './info-card';
 export { default as ListPokemon } from './list-pokemon';
-export { default as NewListPokemon } from './new-list-pokemon';
 export { default as PokemonCard } from './pokemon-card';
 export { default as PokemonStats } from './pokemon-stats';
-export { default as StatsCard, type StatsCardProps } from './stats-card';
 export * from './types';

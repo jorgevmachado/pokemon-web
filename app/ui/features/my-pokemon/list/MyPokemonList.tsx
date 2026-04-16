@@ -22,13 +22,7 @@ const MyPokemonList = () => {
       meta={ meta }
       items={ items.map((item) => ({
         id: item.id ,
-        name: item.pokemon.name ,
-        types: item.pokemon.types ,
-        order: item.pokemon.order ,
-        image: item.pokemon.image ,
-        showInfo: true ,
-        nickname: item.nickname ,
-        externalImage: item.pokemon.external_image ,
+        registry: item ,
       })) }
       filters={ inputFilters }
       pageName="My Pokémon"

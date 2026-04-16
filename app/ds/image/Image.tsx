@@ -34,6 +34,12 @@ const IMAGE_SIZE_CLASS_MAP: Record<TImageSize ,ImageSizeProps> = {
     height: 220 ,
     className: 'max-h-60' ,
   } ,
+  xl: {
+    py: 'py-20' ,
+    width: 400 ,
+    height: 400 ,
+    className: 'max-h-72' ,
+  } ,
 };
 
 export default function Image({

@@ -1,8 +1,7 @@
 import React ,{ useMemo ,useState  } from 'react';
 import { Autocomplete ,AutocompleteOption } from '@/app/ds';
-import { TPokemon } from '@/app/ui';
+import { PokemonCard ,TPokemon } from '@/app/ui';
 import { joinClass } from '@/app/utils';
-import Card from '@/app/ui/components/card/Card';
 
 type ModalInitializeProps = {
   pokemons: Array<TPokemon>;
@@ -57,35 +56,10 @@ const ModalInitialize = ({
       </label>
       { selectedPokemon && (
         <div className="mt-5 ml-48 mr-48">
-          <Card
+          <PokemonCard
             key={ selectedPokemon.id }
-            id={ selectedPokemon.id }
-            tags={ selectedPokemon?.types?.map((type) => ({
-              key: type.id ,
-              name: type.name ,
-              style: {
-                color: type.text_color ,
-                backgroundColor: type.background_color ,
-              } ,
-            })) }
-            type="DETAIL"
-            name={ selectedPokemon.name }
-            order={ selectedPokemon.order }
-            image={ {
-              image: selectedPokemon.image ,
-              externalImage: selectedPokemon.external_image ,
-            } }
-            showInfo={ true }
-            stats={ {
-              hp: selectedPokemon.hp ,
-              maxHp: selectedPokemon.hp ,
-              attack: selectedPokemon.attack ,
-              defense: selectedPokemon.defense ,
-              withBorder: false ,
-              specialAttack: selectedPokemon.special_attack ,
-              specialDefense: selectedPokemon.special_defense ,
-              speed: selectedPokemon.speed ,
-            } }
+            pokemon={selectedPokemon}
+            showStats={true}
           />
         </div>
       ) }
